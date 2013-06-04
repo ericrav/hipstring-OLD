@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}{{title}} by {{author}}{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="/static/css/dragstyle.css">
+{% endblock %}
+{% block scripts %}
+    <script src="/static/js/script.js"></script>
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">stLight.options({publisher: "d91ce3d5-2486-4be3-b6b9-4c4c28b4d13a", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+{% endblock %}
+{% block primary %}
+<div class="main-container">
+    <div class="soundplayer">
+      <script src="http://connect.soundcloud.com/sdk.js"></script>
+      <script>
+	SC.initialize({
+	client_id: '***REMOVED***'});
+      </script>
+      <div id="putTheWidgetHere"></div> 
+      <script type="text/JavaScript">
+	SC.oEmbed("http://www.soundcloud.com/{{songURL}}", 
+	{color: "000066", sharing: false, auto_play: true},  document.getElementById("putTheWidgetHere"));    
+      </script>
+    </div>
+    <div class="judgeTop">
+      <div id="negativeHeader" class="columnHeader span4">
+	<p>Needs Work</p>
+      </div>
+      <div class="judgeInstructions span4">
+	<p>Rate the music by dragging and 
+      dropping each individual attribute of the sound to the left or right.
+	</p>
+      </div>
+      <div id="positiveHeader" class="columnHeader span4">
+	<p>Great Job</p>
+      </div>
+    </div>
+    <div class="judgeArea">
+      <ul id="negative" class="assigned span4" ondrop="dropNegative(event)"
+ondragover="allowDrop(event)">
+	{% for att,titletext,y,n in negatives %}
+	<li id="{{att}}" class="attribute" draggable="false" 
+	    ondragstart="drag(event)" ondragend="dragEnd(event)" data-toggle="tooltip" rel="tooltip" title='{{titletext}}' >
+	  <p  class="attName locked" onclick="showClickVote('{{att}}')">{{att}}</p>
+	  <p id="{{att}}Stats locked" class="attStats" 
+	     onclick="showClickVote2('{{att}}')">
+	    <i class="icon-thumbs-up"></i> <span class="y">{{y}}</span>
+	    <i class="icon-thumbs-down"></i> <span class="n">{{n}}</span>
+	    </p>
+	  <p class="clickVote locked" onclick="hideClickVote('{{att}}')">
+	    <a onclick="movePositive('{{att}}')">
+	      <i class="icon-thumbs-up"></i></a>
+	    <a onclick="moveNeutral('{{att}}')"><i class="icon-remove"></i></a>
+	    <a onclick="moveNegative('{{att}}')"><i class="icon-thumbs-down"></i></a>
+	  </p>
+	</li>
+	{% endfor %}
+      </ul>
+      <ul id="unassigned" class="unassigned span4" ondrop="dropNeutral(event)"
+ondragover="allowDrop(event)">
+	{% for att,titletext,y,n in unassigned %}
+	<li id="{{att}}" class="attribute" draggable="true" 
+	    ondragstart="drag(event)" ondragend="dragEnd(event)" data-toggle="tooltip" rel="tooltip" title='{{titletext}}' >
+	  <p  class="attName" onclick="showClickVote('{{att}}')">{{att}}</p>
+	  <p id="{{att}}Stats" class="attStats" 
+	     onclick="showClickVote2('{{att}}')">
+	    <i class="icon-thumbs-up"></i> <span class="y">{{y}}</span>
+	    <i class="icon-thumbs-down"></i> <span class="n">{{n}}</span>
+	    </p>
+	  <p class="clickVote" onclick="hideClickVote('{{att}}')">
+	    <a onclick="movePositive('{{att}}')">
+	      <i class="icon-thumbs-up"></i></a>
+	    <a onclick="moveNeutral('{{att}}')"><i class="icon-remove"></i></a>
+	    <a onclick="moveNegative('{{att}}')"><i class="icon-thumbs-down"></i></a>
+	  </p>
+	</li>
+	{% endfor %}
+      </ul>
+      <ul id="positive" class="assigned span4" ondrop="dropPositive(event)"
+ondragover="allowDrop(event)">
+	{% for att,titletext,y,n in positives %}
+	<li id="{{att}}" class="attribute" draggable="false" 
+	    ondragstart="drag(event)" ondragend="dragEnd(event)" data-toggle="tooltip" rel="tooltip" title='{{titletext}}' >
+	  <p  class="attName locked" onclick="showClickVote('{{att}}')">{{att}}</p>
+	  <p id="{{att}}Stats locked" class="attStats" 
+	     onclick="showClickVote2('{{att}}')">
+	    <i class="icon-thumbs-up"></i> <span class="y">{{y}}</span>
+	    <i class="icon-thumbs-down"></i> <span class="n">{{n}}</span>
+	    </p>
+	  <p class="clickVote locked" onclick="hideClickVote('{{att}}')">
+	    <a onclick="movePositive('{{att}}')">
+	      <i class="icon-thumbs-up"></i></a>
+	    <a onclick="moveNeutral('{{att}}')"><i class="icon-remove"></i></a>
+	    <a onclick="moveNegative('{{att}}')"><i class="icon-thumbs-down"></i></a>
+	  </p>
+	</li>
+	{% endfor %}
+      </ul>
+    </div>
+    <div class="buttonArea">
+    <button id="submitBtn" class="btn btn-primary" onclick="increaseVotes()">Lock In</btn></div></div>
+<div class="sound_navigation">
+  <div class="leftarrow">
+    <a href="/visited" data-toggle="tooltip" rel="tooltip" title="Go to a previously visited sound">
+      <i class="icon-arrow-left"></i></a>
+  </div>
+  <div class="rightarrow">
+    <a href="/random" data-toggle="tooltip" rel="tooltip" title="Go to the next random sound">
+      <i class="icon-arrow-right"></i></a>
+  </div>
+</div>
+<div class="share-container">
+<div class="sharebuttons">
+<span class='st_facebook_vcount' displayText='Facebook'></span>
+<span class='st_twitter_vcount' displayText='Tweet'></span>
+<span class='st_email_vcount' displayText='Email'></span></div></div>
+{% endblock %}

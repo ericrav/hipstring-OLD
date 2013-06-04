@@ -1,0 +1,6 @@
+User-agent: Googlebot
+Disallow: /random
+Disallow: /visited
+
+User-agent: *
+Disallow: /

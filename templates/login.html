@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Login/Register{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="/static/css/extra.css">
+{% endblock %}
+{% block scripts %}
+   
+{% endblock %}
+{% block primary %}
+<div class="centerbody">
+<p class="lead text-center" >
+The user system is not available yet, but if you want to be one of the first
+to be invited to join, you may enter your email below:</p>
+{% if error %}
+<div class="alert alert-error">
+  <p><strong>Something went wrong.</strong> Please try again.</p>
+</div>
+{% endif %}
+{% if emailValid %}
+<div class="alert alert-success">
+  <p><strong>Thank you!</strong> We will notify you when we are ready. Feel free
+ to continue exploring the site!</p></div>
+{% else %}
+<form action="" method="post">
+  <fieldset>
+    <label>Email address</label>
+    <input type="email" name="email" placeholder="you@example.com">
+    <br>
+    <button type="submit" class="btn">Submit</button>
+  </fieldset>
+</form>
+</div>
+{% endif %}
+
+
+{% endblock %}
