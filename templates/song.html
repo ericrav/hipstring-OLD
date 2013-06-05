@@ -21,9 +21,31 @@
       <div id="putTheWidgetHere"></div> 
       <script type="text/JavaScript">
 	SC.oEmbed("http://www.soundcloud.com/{{songURL}}", 
-	{color: "000066", sharing: false, auto_play: true},  document.getElementById("putTheWidgetHere"));    
+	{color: "000066", sharing: false, auto_play: false},  document.getElementById("putTheWidgetHere"));    
       </script>
     </div>
+    <div class="comment-container">
+	    <div class="comments">
+	    	<span class="positive">What's Right:</span>
+	    	<ul id="pros" class="commentlist">
+	    		<li>Great sound</li>
+	    		<li>Good pizzicatto</li>
+	    	</ul>
+	    	<br>
+	    	<span class="negative">What's Wrong:</span>
+	    	<ul id="cons" class="commentlist"></ul>
+	    </div>
+	    <div class="addComments">
+	    	<div class="new input-append">
+		    	<input class="positive" placeholder="What was done well?" type="text">
+		    	<button class="btn" type="button">Add</button>
+		    </div>
+		    <div class="new input-append">
+		    	<input class="negative" placeholder="What was done poorly?" type="text">
+		    	<button class="btn" type="button">Add</button>
+		    </div>
+	    </div>
+	</div>
     <div class="judgeTop">
       <div id="negativeHeader" class="columnHeader span4">
 	<p>Needs Work</p>
