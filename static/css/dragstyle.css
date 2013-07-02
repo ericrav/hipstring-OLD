@@ -6,42 +6,6 @@
     width: 900px;
     height: 171px;
 }
-.comment-container{
-    position: relative;
-    margin-bottom: 20px;
-    margin-top: 5px;
-}
-.comments{
-    text-align: left;
-}
-.comments span{
-    text-align: left;
-    background-color: #777;
-    color: white;
-    padding: 7px;
-    display: inline-block;
-}
-.commentlist{
-    display: inline-block;
-}
-.commentlist li {
-    display: inline-block;
-    background-color: #ccc;
-    border-radius:25px;
-    padding: 5px 7px;
-}
-.addComments{
-    position: absolute;
-    top: 0px;
-    right: 0px;
-}
-.addComments .new{
-    margin-bottom: 5px;
-    display: block;
-}
-.addComments input{
-    width: 150px;
-}
 #positiveHeader p{
     background-color: #AAFFAA;
 }
