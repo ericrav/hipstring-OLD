@@ -1,5 +1,18 @@
 var voting = "positive";
 $(document).ready(function () {
+    $.get("/songs/random/", function(songData){
+        moreTracksHtml = "";
+        for (var i = 0; i < songData.length; i++) {
+            var votedClass = "";
+            if (songData[i].voted == "new") {
+                votedClass = "unheard";
+            } else {
+                votedClass = "ur" + songData[i].voted;
+            }
+            moreTracksHtml += '<div class="track '+votedClass+'"><div class="cover-container"><a href="/'+songData[i].url+'"><img src="'+songData[i].artwork+'"></a></div><span class="title" title="'+songData[i].title+'">'+songData[i].title+'</span><span class="artist" title="'+songData[i].author+'">'+songData[i].author+'</span></div>';
+        }
+        $(".more-tracks .tracks-container").html(moreTracksHtml);
+    });
 	$("a.twitter").attr("href", "https://twitter.com/share?url=" + encodeURIComponent(document.URL));
 	$("a.facebook").attr("href", "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(document.URL));
 	$(".sharing a").click(function(event) {
@@ -38,6 +51,18 @@ $(document).ready(function () {
 										function(e){showVotingStats(e, 'hide');});
     $(".attribute .stats-toggle").click(function(e){showVotingStats(e, 'toggle');});
     
+    $("#loginModal .submit-btn").click(function(e){
+        var email = $("#loginModal input.email").val();
+        $.post("/register", {email:email}, function(json){
+            if (json.res == "success") {
+                $("#loginModal .response").html("<div class='alert alert-success'>Thanks! Talk to you soon.</div>");
+                setTimeout(function(){$("#loginModal").modal("hide");}, 750);
+            } else{
+                $("#loginModal .response").html("<div class='alert alert-error'>Woops. Something wasn't right.</div>");
+            }
+        });
+    });
+
     $(".voting a").click(function() {
     	$(".voting a.selected").removeClass("selected");
     	$(this).addClass("selected");

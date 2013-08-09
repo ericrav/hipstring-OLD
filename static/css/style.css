@@ -22,20 +22,38 @@ body{
     color: rgb(117,205,217);
     background-color: #261D1D;
     margin: 0 auto;
-    padding: 60px 0;
+    padding: 40px 0;
     max-width: 85%;
     position: relative;
     top: 20px;
     margin-bottom: 40px;
 }
 .copy h1 {
+    font-weight: normal;
     margin-top: 0px;
-    padding-top: 20px;
+    padding-top: 10px;
 }
 .copy .brand {
     margin-top: 20px;
     color: rgba(255,220,99,1);
-
+}
+.copy p{
+    padding-top: 20px;
+    color: #bbb;
+    max-width: 20em;
+    margin: auto;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+.copy p.cta{
+    padding-top: 15px;
+    color: #eee;
+    max-width: 35em;
+    font-size: 15px;
+}
+.copy form{
+    margin: 0 auto;
+    padding-top: 15px;
 }
 .selectedSound-container, .selectedSound, .color-bg, .more-tracks{
     min-height: 740px;
@@ -370,6 +388,7 @@ li {
     cursor: pointer;
     height: auto;
     max-width: 100%;
+    width: 500px;
     box-shadow: 0 0 10px 2px #261D1D;
 }
 .more-tracks .tracks-container .track img:hover{
