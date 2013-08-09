@@ -75,11 +75,11 @@ class GetRandom(webapp2.RequestHandler):
             num = songs.count()
             if not memcache.add("totalSoundCountWithArtwork", num, 1200):
                 logging.error('Memcache set failed.')
-        num -= 12
+        num -= 20
         if num < 1:
             num = 1
         offset = random.randint(0,num)
-        res  = songs.fetch(12, offset=offset)
+        res  = songs.fetch(20, offset=offset)
         data = []
         for sound in res:
             userLog = sound.user_votes.filter("user =", ip).get()
@@ -90,6 +90,8 @@ class GetRandom(webapp2.RequestHandler):
                 for vote in userLog.votes:
                     attsVoted += math.fabs(vote)
             data.append({"title":sound.title,"author":sound.author,"artwork":sound.artwork,"url":sound.url, "voted":int(attsVoted)})
+        random.shuffle(data)
+        data = data[:12]
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(json.dumps(data))
 

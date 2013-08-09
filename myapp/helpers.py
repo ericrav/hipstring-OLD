@@ -31,9 +31,11 @@ def scResolve(track_url):
 
 def getArtwork(sound, songURL):
     """Takes Sound object and ID and gets url for artwork. If there's not artwork, gets user's avatar image url."""
-    if not existsInSC(songURL):
-        return
-    info = scResolve("http://www.soundcloud.com/" + songURL)
+    try:
+        info = scResolve("http://www.soundcloud.com/" + songURL)
+    except:
+        return False
+    logging.info("Getting artwork.")
     if info["artwork_url"]:
         sound.artwork = info["artwork_url"]
     else:
