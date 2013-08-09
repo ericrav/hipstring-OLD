@@ -69,22 +69,22 @@ class GetRandom(webapp2.RequestHandler):
     def get(self):
         ip    = self.request.remote_addr
         gql   = "SELECT title, author, artwork, url FROM Sound WHERE artwork != ''"
-        num   = memcache.get("totalSoundCount")
-        songs = Sound.all()
+        songs   = GqlQuery(gql)
+        num   = memcache.get("totalSoundCountWithArtwork")
         if not num:
             num = songs.count()
-            if not memcache.add("totalSoundCount", num, 1200):
+            if not memcache.add("totalSoundCountWithArtwork", num, 1200):
                 logging.error('Memcache set failed.')
         num -= 12
         if num < 1:
             num = 1
         offset = random.randint(0,num)
-        res  = GqlQuery(gql).fetch(12, offset=offset)
+        res  = songs.fetch(12, offset=offset)
         data = []
         for sound in res:
             userLog = sound.user_votes.filter("user =", ip).get()
             if not userLog:
-                attsVoted = "new"
+                attsVoted = -1
             else:
                 attsVoted = 0
                 for vote in userLog.votes:

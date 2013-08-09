@@ -4,7 +4,7 @@ $(document).ready(function () {
         moreTracksHtml = "";
         for (var i = 0; i < songData.length; i++) {
             var votedClass = "";
-            if (songData[i].voted == "new") {
+            if (songData[i].voted == -1) {
                 votedClass = "unheard";
             } else {
                 votedClass = "ur" + songData[i].voted;
