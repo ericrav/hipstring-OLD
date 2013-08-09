@@ -16,6 +16,7 @@ $(document).ready(function () {
 	$("a.twitter").attr("href", "https://twitter.com/share?url=" + encodeURIComponent(document.URL));
 	$("a.facebook").attr("href", "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(document.URL));
 	$(".sharing a").click(function(event) {
+        var id = $(this).attr("id");
     var width  = 575, height = 400, left   = ($(window).width()  - width)  / 2,
         top    = ($(window).height() - height) / 2,
         url    = this.href,
@@ -25,7 +26,7 @@ $(document).ready(function () {
                  ',top='    + top    +
                  ',left='   + left;
 
-    window.open(url, "_blank", opts);
+    window.open(url, id, opts);
 
     return false;
   });
