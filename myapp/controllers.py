@@ -37,3 +37,14 @@ class NewHandler(webapp2.RequestHandler):
         while not exists(id):
             continue
         self.redirect("/%s" %id)
+
+class CreateHandler(webapp2.RequestHandler):
+    def post(self):
+        url = self.request.get("entry")
+        url = url.lower()
+        if validateURL(url):
+            i = url.find(".com/")
+            self.redirect("/new/" + url[i+5:])
+            return
+        else:
+            self.redirect("/random#invalidentry")

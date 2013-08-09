@@ -1,19 +1,28 @@
 {% extends 'base.html' %}
 {% block title %}Hipstring{% endblock %}
 {% block primary %}
-<div class="hero-unit">
-  <h1>A New Culture and Community</h1>
-  <p>We are trying to build a new music community and culture, where artists and supporters
-    can interact directly and provide feedback for one another. By working together, artists
-    will improve their craft and create some of their best sounds. Right now, we are offering
-    tools that allow listeners to rate music on multiple dimensions rather than just the
-    binary and unhelpful "like" of other websites. We are rapidly developing so keep
-    checking on us, or <a href="http://hipstring.uservoice.com/" target="_blank"> provide us with your
-      comments or questions by clicking here.</a> Click below to discover what the site
-    can do for you.
-    <br>
-  <strong>Are you a creator or an explorer today?</strong></p>
-  <a href="/create" class="btn btn-primary btn-large">Creator!</a>
-  <a href="/explore" class="btn btn-primary btn-large">Explorer!</a>
-</div>
+  <div class="main-container">
+    <div class="selectedSound-container">
+      <div class="selectedSound">
+        <div class="color-bg">
+          <div class="copy hero-unit">
+            <h1>Welcome, friend.</h1>
+            <div class="brand">HIPSTRING</div>
+            <h2>Don't be a selfish fan.</h2>
+          </div>
+          <div class="sharing">
+            <a class="facebook">
+              <img src="/static/img/facebook.png">
+              Share
+            </a>
+            <a class="twitter">
+              <img src="/static/img/twitter.png">
+              Share
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% include 'moretracks.html' %}
+  </div>
 {% endblock %}

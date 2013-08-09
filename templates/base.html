@@ -36,13 +36,17 @@
       <div class="navbar-inner">
   <a class="brand" href="/">Hipstring.me</a>
   <ul class="nav">
-    <li class="hidden-phone"><a href="#">Home</a></li>
+    <li class="hidden-phone"><a href="/">Home</a></li>
   </ul>
   <ul class="nav pull-right">
-    <li class="hidden-phone"><div class="input-append">
-      <input type="text" name="entry" placeholder="soundcloud.com/artist/track" id="entry" onclick="javascript:this.focus();this.select();">
-      <button class="btn" type="submit" value="Enter">Enter</button>
-    </div></li>
+    <li class="hidden-phone">
+      <form name="songURL" class="inline-form" action="/create" method="post" accept-charset="utf-8">
+        <div class="input-append">
+          <input type="text" name="entry" placeholder="soundcloud.com/artist/track" id="entry" onclick="javascript:this.focus();this.select();">
+          <button class="btn" type="submit" value="Enter">Enter</button>
+        </div>
+      </form>
+    </li>
     <li><a id="login" href="#" data-toggle="modal" data-target="#loginModal">Login/Register</a></li>
   </ul>
       </div>

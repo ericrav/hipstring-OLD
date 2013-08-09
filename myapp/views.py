@@ -34,22 +34,8 @@ class SongHandler(BaseUserInteraction):
     def find(self, id):
         query = "SELECT * FROM Sound WHERE url = '%s'" %id
         return db.GqlQuery(query).get()
-    def rearrange(self, userLog, table):
-        assignedIndices = []
-        positives = []
-        negatives = []
-        votes = userLog.votes
-        for i in xrange(len(votes)):
-            if votes[i] == 1:
-                assignedIndices.append(i)
-                positives.append(table[i])
-            elif votes[i] == -1:
-                assignedIndices.append(i)
-                negatives.append(table[i])
-        unassignedLeft = [i for j, i in enumerate(table) if j not in assignedIndices]
-        return (negatives,unassignedLeft,positives)
     def get(self, id):
-        #Check the id
+        # Check the id
         id = id.lower()
         sound = self.find(id)
         if not sound:
@@ -58,20 +44,27 @@ class SongHandler(BaseUserInteraction):
         # Check if sound has artwork
         if not sound.artwork:
             getArtwork(sound, id)
-        #Render the page, if valid track
+        # Get user data
         ip, userLog = self.getUser(sound)
-        unassigned = zip(atts,titletexts,sound.positives,sound.negatives)
+        # Get user's votes
         if userLog:
-            negatives,unassigned,positives = self.rearrange(userLog, unassigned)
+            votes = []
+            for vote in userLog.votes:
+                if vote == 1:
+                    votes.append(" positive rated")
+                elif vote == -1:
+                    votes.append(" negative rated")
+                else:
+                    votes.append("")
         else:
             sound.uniqueVisits += 1
             sound.put()
             UserLog(user=ip, sound=sound).put()
-            negatives = []
-            positives = []
+            votes = ["","","","","","","","","",""]
 
+        # Render the page, if valid track
         artwork = sound.artwork
-        attributesData = zip(atts,titletexts)
+        attributesData = zip(atts,titletexts,votes)
         votingValues = zip(sound.positives,sound.negatives)
         values = {"title":sound.title, "author":sound.author, "artwork":artwork,
                   "songURL":id, "attributesData":attributesData, "votingValues":votingValues}
@@ -80,17 +73,43 @@ class SongHandler(BaseUserInteraction):
     def post(self, id):
         sound = self.find(id)
         ip, userLog = self.getUser(sound)
+        if not ip:
+            return
         userVotes = userLog.votes
         changed = False
         for i in xrange(len(atts)):
             vote = self.request.get("%s" %atts[i])
-            if vote == "y" and userVotes[i] == 0:
-                sound.positives[i] += 1
+            if vote == "y":
+                oldVote = userVotes[i]
+                if oldVote == 0:
+                    sound.positives[i] += 1
+                elif oldVote == -1:
+                    sound.negatives[i] -= 1
+                    sound.positives[i] += 1
+                else:
+                    continue
                 userLog.votes[i] = 1
                 changed = True
-            elif vote == "n" and userVotes[i] == 0:
-                sound.negatives[i] += 1
+            elif vote == "n":
+                oldVote = userVotes[i]
+                if oldVote == 0:
+                    sound.negatives[i] += 1
+                elif oldVote == 1:
+                    sound.positives[i] -= 1
+                    sound.negatives[i] += 1
+                else:
+                    continue
                 userLog.votes[i] = -1
+                changed = True
+            elif vote == "0":
+                oldVote = userVotes[i]
+                if oldVote == 1:
+                    sound.positives[i] -= 1
+                elif oldVote == -1:
+                    sound.negatives[i] -= 1
+                else:
+                    continue
+                userLog.votes[i] = 0
                 changed = True
         if changed:
             sound.findSum()

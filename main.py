@@ -30,5 +30,6 @@ app = webapp2.WSGIApplication([
     (r'/([\w-]+/[\w-]+)/?', SongHandler),
     (r'/random', RandomHandler),
     (r'/visited', VisitedHandler),
+    (r'/create', CreateHandler),
     ('/*', HomeView)
     ], debug=True)

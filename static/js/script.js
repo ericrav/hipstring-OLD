@@ -39,22 +39,24 @@ $(document).ready(function () {
     $(".attribute .stats-toggle").click(function(e){showVotingStats(e, 'toggle');});
     
     $(".voting a").click(function() {
-	$(".voting a.selected").removeClass("selected");
-	$(this).addClass("selected");
-	voting = $(this).attr("id");
-	var $elements = $(".elements li."+voting);
-	$elements.css("background","#333");
-	setTimeout(function(){$elements.css("background","");},115);
+    	$(".voting a.selected").removeClass("selected");
+    	$(this).addClass("selected");
+    	voting = $(this).attr("id");
+    	var $elements = $(".elements li."+voting);
+    	$elements.css("background","#333");
+    	setTimeout(function(){$elements.css("background","");},115);
     });
     $(".elements li p").click(function() {
-	$el = $(this).parent();
-	if ($el.hasClass(voting)) {
-	    $el.removeClass();
-	} else {
-	    $el.removeClass();
-	    $el.addClass(voting + " rated");
-	}
-	countVotes();
+    	var $el = $(this).parent();
+        var att = $el.attr("id");
+    	if ($el.hasClass(voting)) {
+    	    $el.removeClass();
+    	} else {
+    	    $el.removeClass();
+    	    $el.addClass(voting + " rated");
+    	}
+    	countVotes();
+        submitVotes(att);
     });
 });
 $(window).resize(function () {
@@ -88,4 +90,17 @@ var countVotes = function() {
     } else {
 	$('.color-bg').css({'background':'rgba(0,0,0,0)'});
     }
+}
+
+var submitVotes = function(att) {
+    var $att = $("#"+att);
+    var vote = "0";
+    if ($att.hasClass("positive")) {
+        vote = "y";
+    } else if ($att.hasClass("negative")) {
+        vote = "n";
+    }
+    var data = {};
+    data[att] = vote
+    $.post(window.location, data);
 }

@@ -14,14 +14,14 @@
 			<div class="selectedSound">
 				<div class="color-bg">
 					<div class="soundplayer">
-						<script src="http://connect.soundcloud.com/sdk.js"></script>
+						<script src="//connect.soundcloud.com/sdk.js"></script>
 						<script>
 							SC.initialize({
 								client_id: '***REMOVED***'});
 						</script>
 						<div id="putTheWidgetHere"></div> 
 						<script type="text/JavaScript">
-							SC.oEmbed("http://www.soundcloud.com/{{songURL}}", 
+							SC.oEmbed(('https:' == document.location.protocol ? 'https://' : 'http://') + "www.soundcloud.com/{{songURL}}", 
 							{color: "000066", sharing: false, auto_play: true},  document.getElementById("putTheWidgetHere"));    
 						</script>
 					</div>
@@ -51,8 +51,8 @@
 							console.log(document.votingValues);
 						</script>
 						<ul id="elements" class="elements">
-							{% for att,titleText in attributesData %}
-								<li id="{{att}}" class="attribute" data-toggle="tooltip" rel="tooltip" title='{{titleText}}' >
+							{% for att,titleText,vote in attributesData %}
+									<li id="{{att}}" class="attribute{{vote}}" data-toggle="tooltip" rel="tooltip" title='{{titleText}}' >
 									<p  class="attName">{{att}}</p>
 									<div class="info"><i class="icon-question-sign"></i></div>
 									<div class="stats-toggle"><i class="icon-info-sign"></i></div>
