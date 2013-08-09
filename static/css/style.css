@@ -473,7 +473,10 @@ li {
     width: 100%;
 }
 .selectedSound-container, .selectedSound, .color-bg, .more-tracks{
-    min-height: 800px;
+    min-height: 825px;
+}
+#home .selectedSound-container, #home .selectedSound, #home .color-bg, #home .more-tracks{
+    min-height: 915px;
 }
 .more-tracks{
     position: absolute;
