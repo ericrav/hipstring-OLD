@@ -1,6 +1,6 @@
 var voting = "positive";
 $(document).ready(function () {
-	$("a.twitter").attr("href", "https://twitter.com/share?url=" + encodeURIComponent(document.URL) + "&text=" + encodeURIComponent("Check out this track!"));
+	$("a.twitter").attr("href", "https://twitter.com/share?url=" + encodeURIComponent(document.URL));
 	$("a.facebook").attr("href", "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(document.URL));
 	$(".sharing a").click(function(event) {
     var width  = 575, height = 400, left   = ($(window).width()  - width)  / 2,
