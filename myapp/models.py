@@ -5,6 +5,7 @@ class Sound(db.Model):
     lastVoted = db.DateTimeProperty()
     title = db.StringProperty(required=True)
     author = db.StringProperty(required=True)
+    artwork = db.StringProperty(default="")
     url = db.StringProperty(required=True)
     scID = db.IntegerProperty(required=True)
     uniqueVisits = db.IntegerProperty(default=0)

@@ -1,4 +1,5 @@
 import re
+import logging
 from lib import requests
 
 from lib.soundcloud import client
@@ -27,6 +28,16 @@ def scResolve(track_url):
     track = aClient.get('/resolve', url=track_url)
     info = track.fields()
     return info
+
+def getArtwork(sound, songURL):
+    """Takes Sound object and ID and gets url for artwork. If there's not artwork, gets user's avatar image url."""
+    info = scResolve("http://www.soundcloud.com/" + songURL)
+    if info["artwork_url"]:
+        sound.artwork = info["artwork_url"]
+    else:
+        sound.artwork = info["user"]["avatar_url"]
+    sound.put()
+
 
 def existsInSC(songURL):
     """Checks if the url corresponds to a valid SoundCloud track."""

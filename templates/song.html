@@ -4,8 +4,9 @@
 {% block ogmeta %}
 <meta property="og:title" content="{{title}}" />
 <meta property="og:type" content="music.song" />
-<meta property="og:image" content="" />
-<link rel="image_src" href="" />
+<meta property="og:url" content="http://www.hipstring.me/sc/{{songURL}}" />
+<meta property="og:image" content="{{artwork}}" />
+<link rel="image_src" href="{{artwork}}" />
 {% endblock %}
 {% block primary %}
 	<div class="main-container">
@@ -40,7 +41,7 @@
 						</div>
 						<div class="voting">
 							<a class="selected" id="positive">What's Good</a>
-							<a id="negative">What Needs Work</a>]
+							<a id="negative">What Needs Work</a>
 						</div>
 						<script>
 							document.votingValues = [];
@@ -59,93 +60,21 @@
 										<div class="positive">
 											<i class="icon-thumbs-up"></i>
 											<div class="bar"></div>
-											<span class="number">5</span>
+											<span class="number">0</span>
 										</div>
 										<div class="negative">
 											<i class="icon-thumbs-down"></i>
 											<div class="bar"></div>
-											<span class="number">5</span>
+											<span class="number">0</span>
 										</div>
 									</div>
 								</li>
 							{% endfor %}
-		<li id="harmony" class="attribute"
-		data-toggle="tooltip" rel="tooltip" title='The simultaneous sounds that create chords or richer sound. The texture of the music, and how all the sounds interact "vertically."'>
-		<p class="attName">Harmony</p>
-		<div class="info"><i class="icon-question-sign"></i></div>
-		<div class="stats-toggle"><i class="icon-info-sign"></i></div>
-		<div class="voting-stats"><div class="positive"><i class="icon-thumbs-up"></i><div class="bar"></div><span class="number">5</span></div><div class="negative"><i class="icon-thumbs-down"></i><div class="bar"></div><span class="number">5</span></div></div>
-
-		</li>
-		<li id="rhythm" class="attribute"
-		data-toggle="tooltip" rel="tooltip" title='The pattern or placement of the sounds in time. Also, the beat and pulse of the music.'>
-		<p class="attName">Rhythm</p>
-		<div class="info"><i class="icon-question-sign"></i></div>
-		<div class="stats-toggle"><i class="icon-info-sign"></i></div>
-		<div class="voting-stats"><div class="positive"><i class="icon-thumbs-up"></i><div class="bar"></div><span class="number">5</span></div><div class="negative"><i class="icon-thumbs-down"></i><div class="bar"></div><span class="number">5</span></div></div>
-
-		</li>
-		<li id="tempo" class="attribute"
-		data-toggle="tooltip" rel="tooltip" title='The speed or pace of the music. It can be consistent or change throughout the music.'>
-		<p class="attName">Tempo</p>
-		<div class="info"><i class="icon-question-sign"></i></div>
-		<div class="stats-toggle"><i class="icon-info-sign"></i></div>
-		<div class="voting-stats"><div class="positive"><i class="icon-thumbs-up"></i><div class="bar"></div><span class="number">5</span></div><div class="negative"><i class="icon-thumbs-down"></i><div class="bar"></div><span class="number">5</span></div></div>
-
-		</li>
-		<li id="instrumentation" class="attribute"
-		data-toggle="tooltip" rel="tooltip" title='The instruments or sounds used in the piece. How do they suit the nature of the instrument and how do the sounds fit in together? Is each part of the music played by the right sound/instrument?'>
-		<p class="attName">Instrumentation</p>
-		<div class="info"><i class="icon-question-sign"></i></div>
-		<div class="stats-toggle"><i class="icon-info-sign"></i></div>
-		<div class="voting-stats"><div class="positive"><i class="icon-thumbs-up"></i><div class="bar"></div><span class="number">5</span></div><div class="negative"><i class="icon-thumbs-down"></i><div class="bar"></div><span class="number">5</span></div></div>
-
-		</li>
-		<li id="tone" class="attribute"
-		data-toggle="tooltip" rel="tooltip" title='The way the music and each part of it sounds to the ear and how distinguishable each sound is. Also known as timbre or tone color.'>
-		<p class="attName">Tone</p>
-		<div class="info"><i class="icon-question-sign"></i></div>
-		<div class="stats-toggle"><i class="icon-info-sign"></i></div>
-		<div class="voting-stats"><div class="positive"><i class="icon-thumbs-up"></i><div class="bar"></div><span class="number">5</span></div><div class="negative"><i class="icon-thumbs-down"></i><div class="bar"></div><span class="number">5</span></div></div>
-
-		</li>
-		<li id="production" class="attribute"
-		data-toggle="tooltip" rel="tooltip" title='The quality of the recording. How the different frequencies and levels of sound interact. (The music may be well written but sound poor in this recording due to the production).'>
-		<p class="attName">Production</p>
-		<div class="info"><i class="icon-question-sign"></i></div>
-		<div class="stats-toggle"><i class="icon-info-sign"></i></div>
-		<div class="voting-stats"><div class="positive"><i class="icon-thumbs-up"></i><div class="bar"></div><span class="number">5</span></div><div class="negative"><i class="icon-thumbs-down"></i><div class="bar"></div><span class="number">5</span></div></div>
-
-		</li>
-		<li id="dynamics" class="attribute"
-		data-toggle="tooltip" rel="tooltip" title='The loudness or softness of the music and how it changes.'>
-		<p class="attName">Dynamics</p>
-		<div class="info"><i class="icon-question-sign"></i></div>
-		<div class="stats-toggle"><i class="icon-info-sign"></i></div>
-		<div class="voting-stats"><div class="positive"><i class="icon-thumbs-up"></i><div class="bar"></div><span class="number">5</span></div><div class="negative"><i class="icon-thumbs-down"></i><div class="bar"></div><span class="number">5</span></div></div>
-
-		</li>
-		<li id="originality" class="attribute"
-		data-toggle="tooltip" rel="tooltip" title='How creative the music is overall.'>
-		<p class="attName">Originality</p>
-		<div class="info"><i class="icon-question-sign"></i></div>
-		<div class="stats-toggle"><i class="icon-info-sign"></i></div>
-		<div class="voting-stats"><div class="positive"><i class="icon-thumbs-up"></i><div class="bar"></div><span class="number">5</span></div><div class="negative"><i class="icon-thumbs-down"></i><div class="bar"></div><span class="number">5</span></div></div>
-
-		</li>
-		<li id="form" class="attribute"
-		data-toggle="tooltip" rel="tooltip" title="The overall structure of the music. How it's broken into parts, how it moves from part to part, and how all the other elements interact.">
-		<p class="attName">Form</p>
-		<div class="info"><i class="icon-question-sign"></i></div>
-		<div class="stats-toggle"><i class="icon-info-sign"></i></div>
-		<div class="voting-stats"><div class="positive"><i class="icon-thumbs-up"></i><div class="bar"></div><span class="number">5</span></div><div class="negative"><i class="icon-thumbs-down"></i><div class="bar"></div><span class="number">5</span></div></div>
-
-		</li>
-		</ul>
+						</ul>
+					</div>
+				</div>
+			</div>
 		</div>
-		</div>
-		</div>
-		</div>
-	{% include 'moretracks.html' %}
+		{% include 'moretracks.html' %}
 	</div>
 {% endblock %}

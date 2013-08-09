@@ -20,16 +20,15 @@ import webapp2
 
 sys.path.append(os.path.join(os.path.dirname(__file__) + "/myapp/", "lib"))
 
-from myapp.handlers import *
+from myapp.views import *
+from myapp.controllers import *
 
 
 app = webapp2.WSGIApplication([
     (r'/new/([\w-]+/[\w-]+)/?', NewHandler),
+    (r'/sc/([\w-]+/[\w-]+)/?', SongHandler),
     (r'/([\w-]+/[\w-]+)/?', SongHandler),
     (r'/random', RandomHandler),
     (r'/visited', VisitedHandler),
-    (r'/login', LoginHandler),
-    (r'/create', CreateHandler),
-    (r'/explore', ExploreHandler),
-    ('/*', MainHandler)
+    ('/*', HomeView)
     ], debug=True)
