@@ -1,123 +1,91 @@
-var unassignedCount;
+var voting = "positive";
 $(document).ready(function () {
-    $(".attribute").tooltip({delay: {show: 2000, hide:100}});
-    $(".sound_navigation a").tooltip({delay: {show: 500, hide:0}});
-    unassignedCount = $(".unassigned li").size();
+	$("a.twitter").attr("href", "https://twitter.com/share?url=" + encodeURIComponent(document.URL) + "&text=" + encodeURIComponent("Check out this track!"));
+	$("a.facebook").attr("href", "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(document.URL));
+	$(".sharing a").click(function(event) {
+    var width  = 575, height = 400, left   = ($(window).width()  - width)  / 2,
+        top    = ($(window).height() - height) / 2,
+        url    = this.href,
+        opts   = 'status=1' +
+                 ',width='  + width  +
+                 ',height=' + height +
+                 ',top='    + top    +
+                 ',left='   + left;
+
+    window.open(url, "_blank", opts);
+
+    return false;
+  });
+	$(".more-tracks").css("top", $(".selectedSound").height() + "px");
+	var votingStats = document.votingValues;
+	var $elements = $(".attribute");
+	for (var i = 0; i < $elements.length; i++) {
+		var p     = votingStats[i][0]; 
+		var n     = votingStats[i][1]; 
+		var total = (p + n) == 0 ? 1 : p + n;
+		var $el   = $($elements[i]);
+		$el.find(".voting-stats .positive .bar").css("width", (((p/total)*65)+5) + "%");
+		$el.find(".voting-stats .negative .bar").css("width", (((n/total)*65)+5) + "%");
+		$el.find(".voting-stats .positive span").text(p);
+		$el.find(".voting-stats .negative span").text(n);
+	}
+	$(".more-tracks h2 i").tooltip({placement: "bottom"});
+    $(".attribute").tooltip({delay: {show: 1200, hide:100}, trigger: "manual"});
+    $(".attribute .info").hover(function(){$(this).parent().tooltip('show');},
+								function(){$(this).parent().tooltip('hide');});
+    $(".attribute .info").click(function(){$(this).parent().tooltip('toggle');});
+    $(".attribute .stats-toggle").hover(function(e){showVotingStats(e, 'show');},
+										function(e){showVotingStats(e, 'hide');});
+    $(".attribute .stats-toggle").click(function(e){showVotingStats(e, 'toggle');});
+    
+    $(".voting a").click(function() {
+	$(".voting a.selected").removeClass("selected");
+	$(this).addClass("selected");
+	voting = $(this).attr("id");
+	var $elements = $(".elements li."+voting);
+	$elements.css("background","#333");
+	setTimeout(function(){$elements.css("background","");},115);
+    });
+    $(".elements li p").click(function() {
+	$el = $(this).parent();
+	if ($el.hasClass(voting)) {
+	    $el.removeClass();
+	} else {
+	    $el.removeClass();
+	    $el.addClass(voting + " rated");
+	}
+	countVotes();
+    });
 });
-
-function allowDrop(ev) {
-    ev.preventDefault();
-}
-
-function drag(ev) {
-    hideClickVote(ev.target.id);
-    ev.dataTransfer.setData("Text",ev.target.id);
-    $("#"+ev.target.id).draggable();
-    document.getElementById("positive").style.backgroundColor = "#A0FFA0";
-    document.getElementById("negative").style.backgroundColor = "#FF6060";
-} 
-function dragEnd(ev) {
-    document.getElementById("positive").style.backgroundColor = "#CCCCD8";
-    document.getElementById("negative").style.backgroundColor = "#CCCCD8";
-    $("#"+ev.target.id).draggable("disable");
-    submitReady();
-}
-function dropNegative(ev) {
-    ev.preventDefault();
-    var data=ev.dataTransfer.getData("Text");
-    document.getElementById("negative").appendChild(document.getElementById(data));
-    $("li p").removeClass("invisiblehover").removeClass("visible");
-}
-function dropNeutral(ev) {
-    ev.preventDefault();
-    var data=ev.dataTransfer.getData("Text");
-    document.getElementById("unassigned").appendChild(document.getElementById(data));
-    $("li p").removeClass("invisiblehover").removeClass("visible");
-}
-function dropPositive(ev) {
-    ev.preventDefault();
-    var data=ev.dataTransfer.getData("Text");
-    document.getElementById("positive").appendChild(document.getElementById(data));
-    $("li p").removeClass("invisiblehover").removeClass("visible");
-}
-function movePositive(id) {
-    document.getElementById("positive").appendChild(document.getElementById(id));
-    $("li p").removeClass("invisiblehover").removeClass("visible");
-    submitReady();
-}
-function moveNegative(id) {
-    document.getElementById("negative").appendChild(document.getElementById(id));
-    $("li p").removeClass("invisiblehover").removeClass("visible");
-    submitReady();
-}
-function moveNeutral(id) {
-    document.getElementById("unassigned").appendChild(document.getElementById(id));
-    $("li p").removeClass("invisiblehover").removeClass("visible");
-    submitReady();
-}
-function submitReady() {
-    if ($(".unassigned li").size() < unassignedCount) {
-	if (!$("#submitBtn").is(":visible")) {
-	    $("#submitBtn").fadeIn("slow");
-	}
+$(window).resize(function () {
+	$(".more-tracks").css("top", $(".selectedSound").height() + "px");
+});
+var showVotingStats = function(e, option) {
+    var $el = $(e.currentTarget).parent(),
+    $p      = $el.find("p.attName"),
+    $stats  = $el.find("div.voting-stats");
+    if (option=="show") {
+    	$p.animate({'opacity':0});
+    	$stats.fadeIn();
+    } else if (option=="hide") {
+    	$p.animate({'opacity':1});
+    	$stats.fadeOut();
     } else {
-	$("#submitBtn").hide();
-}
-}
-function showClickVote(id) {
-    if ($("#unassigned #" + id + " .attName").is(":visible")) {
-	$("li p").removeClass("invisiblehover").removeClass("visible");
-	$("#" + id + " .clickVote").addClass("visible");
-	$("#" + id + " .attName").addClass("invisiblehover").removeClass("visible");
-    }
-}
-function showClickVote2(id) {
-    if ($(".assigned #" + id + " .attStats").is(":visible") && 
-	$("#"+id).attr("draggable") == "true") {
-	$("li p").removeClass("invisiblehover").removeClass("visible");
-	$("#" + id + " .clickVote").addClass("visible");
-	$("#" + id + " .attName").addClass("invisiblehover").removeClass("visible");
-	$("#" + id + " .attStats").addClass("invisiblehover");
-    }
-}
-function hideClickVote(id) {
-    if (!$("#" + id + " .attName").is(":visible")) {
-	$("#" + id + " .clickVote").removeClass("visible");
-	$("#" + id + " .attName").removeClass("invisiblehover");
-	$("#" + id + " .attStats").removeClass("invisiblehover");
+    	if ($p.css("opacity") == 1) {
+    		showVotingStats(e, "show");
+    	} else {
+    		showVotingStats(e, "hide");
+    	}
     }
 }
 
-function increaseVotes() {
-    var positives = $("#positive .y");
-    var negatives = $("#negative .n");
-    var val;
-    var data = new Object();
-    var atts = $(".judgeArea li");
-    for (var i = 0; i < atts.length; i++) {
-	data[$(atts[i]).attr("id")] = 0;
+var countVotes = function() {
+    var val = $('.elements li.positive').length - $('.elements li.negative').length;
+    if (val > 0) {
+	$('.color-bg').css({'background':'rgba(58,139,232,'+String(val*0.025)+')'});
+    } else if (val < 0) {
+	$('.color-bg').css({'background':'rgba(217,87,76,'+String(val*-0.025)+')'});
+    } else {
+	$('.color-bg').css({'background':'rgba(0,0,0,0)'});
     }
-    for (var i = 0; i < positives.length; i++) {
-	if ($(positives[i]).parent().parent().attr("draggable") == "true") {
-	    val = parseInt($(positives[i]).html(), 10);
-	    $(positives[i]).html(val+1);
-	    data[$(positives[i]).parent().parent().attr("id")] = "y";
-	}
-    }
-    for (var i = 0; i < negatives.length; i++) {
-	if ($(negatives[i]).parent().parent().attr("draggable") == "true") {
-	    val = parseInt($(negatives[i]).html(), 10);
-	    $(negatives[i]).html(val+1);
-	    data[$(negatives[i]).parent().parent().attr("id")] = "n";
-	}
-    }
-    var items = $(".assigned li");
-    for (var i = 0; i < items.length; i++) {
-	$(items[i]).attr("draggable","false");
-    }
-    var ps = $(".assigned li p");
-    for (var i = 0; i < ps.length; i++) {
-	$(ps[i]).addClass("locked");
-    }
-    $.post(window.location, data);
 }

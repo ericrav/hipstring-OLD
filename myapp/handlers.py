@@ -102,9 +102,11 @@ class SongHandler(BaseUserInteraction):
             UserLog(user=ip, sound=sound).put()
             negatives = []
             positives = []
+
+        votingValues = zip(sound.positives,sound.negatives)
         values = {"title":sound.title, "author":sound.author,
                   "songURL":id, "unassigned":unassigned,
-                  "negatives":negatives, "positives":positives}
+                  "negatives":negatives, "positives":positives, "votingValues":votingValues}
         path = self.getPath("song.html")
         self.response.out.write(template.render(path, values))
     def post(self, id):
