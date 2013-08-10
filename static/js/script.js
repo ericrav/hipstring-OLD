@@ -43,6 +43,7 @@ $(document).ready(function () {
 		$el.find(".voting-stats .positive span").text(p);
 		$el.find(".voting-stats .negative span").text(n);
 	}
+    $(".navbar .newsong").tooltip({placement: "bottom"});
 	$(".more-tracks h2 i").tooltip({placement: "bottom"});
     $(".attribute").tooltip({delay: {show: 1200, hide:100}, trigger: "manual"});
     $(".attribute .info").hover(function(){$(this).parent().tooltip('show');},
