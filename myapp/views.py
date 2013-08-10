@@ -64,9 +64,10 @@ class SongHandler(BaseUserInteraction):
 
         # Render the page, if valid track
         artwork = sound.artwork
+        voters = sound.user_votes.filter("votes IN", [1,-1]).count()
         attributesData = zip(atts,titletexts,votes)
         votingValues = zip(sound.positives,sound.negatives)
-        values = {"title":sound.title, "author":sound.author, "artwork":artwork,
+        values = {"title":sound.title, "author":sound.author, "artwork":artwork, "voters": voters,
                   "songURL":id, "attributesData":attributesData, "votingValues":votingValues}
         path = self.getPath("song.html")
         self.response.out.write(template.render(path, values))

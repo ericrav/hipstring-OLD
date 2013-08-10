@@ -37,7 +37,17 @@
 							</a>
 						</div>
 						<div class="stats">
-							<p>0 listeners have provided this artist with feedback. Be the first.</p>
+							<p>{{voters}} 
+							{% if voters == 1 %}
+								listener has 
+							{% else %}
+								listeners have
+							{% endif %}
+							provided this artist with feedback.
+							{% if voters == 0 %}
+								Be the first.
+							{% endif %}
+							</p>
 						</div>
 						<div class="voting">
 							<a class="selected" id="positive">What's Good</a>
