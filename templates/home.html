@@ -11,7 +11,7 @@
             <h2>Don't be a selfish fan.</h2>
             <p>Get more out of your music by <em>thinking</em> about why you may love or hate it, all while connecting to the people behind the work by giving them the invaluable feedback they deserve.</p>
             <p class="cta">Check out one of these tracks to get started. Or, if you have your own music on SoundCloud, enter the URL for one of your tracks:</p>
-            <form name="songURL" class="inline-form" action="/create" method="post" accept-charset="utf-8">
+            <form name="songURL" class="inline-form" action="/create" method="post" accept-charset="utf-8" onsubmit="_gaq.push(['_trackEvent', 'Add Track', 'Home Page Form']);">
               <div class="input-append">
                 <input type="text" name="entry" placeholder="soundcloud.com/artist/track" id="entry" onclick="javascript:this.focus();this.select();">
                 <button class="btn" type="submit" value="Enter">Enter</button>

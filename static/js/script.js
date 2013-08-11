@@ -17,6 +17,8 @@ $(document).ready(function () {
 	$("a.facebook").attr("href", "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(document.URL));
 	$(".sharing a").click(function(event) {
         var id = $(this).attr("id");
+        var site = $(this).attr("class");
+        _gaq.push(['_trackEvent', 'Share', site]);
     var width  = 575, height = 400, left   = ($(window).width()  - width)  / 2,
         top    = ($(window).height() - height) / 2,
         url    = this.href,
@@ -55,12 +57,15 @@ $(document).ready(function () {
     
     $("#loginModal .submit-btn").click(function(e){
         var email = $("#loginModal input.email").val();
+        _gaq.push(['_trackEvent', 'Email', "Open Modal", "Navbar"]);
         $.post("/register", {email:email}, function(json){
             if (json.res == "success") {
+                _gaq.push(['_trackEvent', 'Email', "Valid"]);
                 $("#loginModal .response").html("<div class='alert alert-success'>Thanks! Talk to you soon.</div>");
                 setTimeout(function(){$("#loginModal").modal("hide");}, 750);
             } else{
                 $("#loginModal .response").html("<div class='alert alert-error'>Woops. Something wasn't right.</div>");
+                _gaq.push(['_trackEvent', 'Email', "Invalid"]);
             }
         });
     });
@@ -69,6 +74,7 @@ $(document).ready(function () {
     	$(".voting a.selected").removeClass("selected");
     	$(this).addClass("selected");
     	voting = $(this).attr("id");
+        _gaq.push(['_trackEvent', 'Change Voting', voting]);
     	var $elements = $(".elements li."+voting);
     	$elements.css("background","#333");
     	setTimeout(function(){$elements.css("background","");},115);
@@ -78,9 +84,11 @@ $(document).ready(function () {
         var att = $el.attr("id");
     	if ($el.hasClass(voting)) {
     	    $el.removeClass();
+            _gaq.push(['_trackEvent', 'Unrate', att, voting]);
     	} else {
     	    $el.removeClass();
     	    $el.addClass(voting + " rated");
+            _gaq.push(['_trackEvent', 'Rate', att, voting]);
     	}
     	countVotes();
         submitVotes(att);
