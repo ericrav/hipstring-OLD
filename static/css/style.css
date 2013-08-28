@@ -72,7 +72,25 @@ body{
 }
 .navbar .navbar-inner{
     padding: 0px;
-    background: #261D1D;
+    background: rgb(117,205,217);
+}
+.navbar-inverse .brand, .navbar-inverse .nav > li > a{
+    color: #261D1D;
+    text-shadow: none;
+}
+.navbar-inverse .brand:hover, .navbar-inverse .nav > li > a:hover{
+    color: #555;
+}
+.navbar .navbar-inner .input-append input, .navbar .navbar-inner .input-append button {
+    border: 1px solid #261D1D;
+}
+.navbar .navbar-inner .input-append input:focus{
+    border-color: rgba(255,220,99,0.8);
+    outline: 0;
+    outline: thin dotted \9;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255,220,99,0.6);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255,220,99,0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255,220,99,0.6);
 }
 .navbar .brand{
     margin: 0px;
@@ -389,10 +407,8 @@ li {
     height: auto;
     max-width: 100%;
     width: 500px;
-    box-shadow: 0 0 10px 2px #261D1D;
-}
-.more-tracks .tracks-container .track img:hover{
-    box-shadow: 0 0 2px 3px #261D1D;
+    border: 1px solid #261D1D;
+    box-shadow: 0 0 4px 0px #261D1D;
 }
 .more-tracks .track span{
     display: block;
