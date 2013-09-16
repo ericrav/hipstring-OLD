@@ -37,7 +37,7 @@ class NewHandler(webapp2.RequestHandler):
             return
         songURL = "http://www.soundcloud.com/" + id
         if not validateURL(songURL):
-            self.redirect("/create")
+            self.redirect("/")
             return
         trackData = existsInSC(songURL)
         if not trackData:
@@ -92,6 +92,16 @@ class GetRandom(webapp2.RequestHandler):
             data.append({"title":sound.title,"author":sound.author,"artwork":sound.artwork,"url":sound.url, "voted":int(attsVoted)})
         random.shuffle(data)
         data = data[:12]
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(json.dumps(data))
+
+class GetUserStats(webapp2.RequestHandler):
+    def get(self):
+        ip    = self.request.remote_addr
+        logs  = UserLog.all().filter("user =", ip)
+        total = logs.count()
+        voted = logs.filter("votes IN", [1,-1]).count()
+        data  = {"total": total, "voted": voted}
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(json.dumps(data))
 

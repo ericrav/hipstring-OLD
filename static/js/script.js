@@ -1,5 +1,12 @@
 var voting = "positive";
 $(document).ready(function () {
+    $.get("/user/stats/", function(stats){
+        var total  = stats.total;
+        var voted  = stats.voted;
+        var plural = parseInt(total) == 1 ? "" : "s";
+        $(".more-tracks").prepend("<div><h2><i class='icon-user'></i></h2><p class='stats'>You have listened to "
+                                  + total + " song" + plural + " and rated " + voted + " of them.</div>");
+    });
     $.get("/songs/random/", function(songData){
         moreTracksHtml = "";
         for (var i = 0; i < songData.length; i++) {
