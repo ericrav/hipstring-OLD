@@ -8,6 +8,9 @@
 <meta property="og:image" content="{{artwork}}" />
 <link rel="image_src" href="{{artwork}}" />
 {% endblock %}
+{% block scripts %}
+<script src="/static/js/songscript.js"></script>
+{% endblock %}
 {% block primary %}
 	<div class="main-container">
 		<div class="selectedSound-container">
@@ -50,8 +53,8 @@
 							</p>
 						</div>
 						<div class="voting">
-							<a class="selected" id="positive">What's Good</a>
-							<a id="negative">What Needs Work</a>
+							<a class="selected" id="positive">What I Like</a>
+							<a id="negative">What I Don't Like</a>
 						</div>
 						<script>
 							document.votingValues = [];
