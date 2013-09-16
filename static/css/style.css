@@ -372,6 +372,10 @@ li {
     margin-top: 5px;
     cursor: pointer;
 }
+.more-tracks p.stats{
+    color: #261D1D;
+    font-size: 12px;
+}
 .more-tracks .tracks-container{
     padding-bottom: 40px;
 }

@@ -25,7 +25,8 @@ from myapp.controllers import *
 
 
 app = webapp2.WSGIApplication([
-	(r'/songs/random/', GetRandom),
+    (r'/songs/random/', GetRandom),
+	(r'/user/stats/', GetUserStats),
     (r'/new/([\w-]+/[\w-]+)/?', NewHandler),
     (r'/sc/([\w-]+/[\w-]+)/?', SongHandler),
     (r'/([\w-]+/[\w-]+)/?', SongHandler),
@@ -33,5 +34,5 @@ app = webapp2.WSGIApplication([
     (r'/visited', VisitedHandler),
     (r'/create', CreateHandler),
     (r'/register', RegisterHandler),
-    ('/*', HomeView)
+    (r'/*', HomeView)
     ], debug=True)
