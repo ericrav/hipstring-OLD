@@ -145,7 +145,7 @@ class SoundCloudLogin(webapp2.RequestHandler):
         # create client object with app credentials
         client = soundcloud.Client(client_id='***REMOVED***',
                                    client_secret='***REMOVED***',
-                                   redirect_uri='http://localhost:8080/sc_login')
+                                   redirect_uri='//hipstring.me/sc_login')
 
         # exchange authorization code for access token
         code = self.request.get("code")
