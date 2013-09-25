@@ -25,9 +25,13 @@ class BaseHandler(webapp2.RequestHandler):
                             "/../templates/",file)
 class BaseUserInteraction(BaseHandler):
     def getUser(self, sound):
-        ip = self.request.remote_addr
-        userLog = sound.user_votes.filter("user =", ip).get()
-        return (ip, userLog)
+        session = get_current_session()
+        if session.has_key("uid"):
+            uid = str(session["uid"])
+        else:
+            uid = self.request.remote_addr
+        userLog = sound.user_votes.filter("user =", uid).get()
+        return (uid, userLog)
     def getIP(self):
         ip = self.request.remote_addr
         return ip
@@ -71,7 +75,11 @@ class CreateHandler(webapp2.RequestHandler):
 
 class GetRandom(webapp2.RequestHandler):
     def get(self):
-        ip    = self.request.remote_addr
+        session = get_current_session()
+        if session.has_key("uid"):
+            ip = str(session["uid"])
+        else:
+            ip = self.request.remote_addr
         gql   = "SELECT title, author, artwork, url FROM Sound WHERE artwork != ''"
         songs = GqlQuery(gql)
         num   = memcache.get("totalSoundCountWithArtwork")
@@ -101,7 +109,11 @@ class GetRandom(webapp2.RequestHandler):
 
 class GetUserStats(webapp2.RequestHandler):
     def get(self):
-        ip    = self.request.remote_addr
+        session = get_current_session()
+        if session.has_key("uid"):
+            ip = str(session["uid"])
+        else:
+            ip = self.request.remote_addr
         logs  = UserLog.all().filter("user =", ip)
         total = logs.count()
         voted = logs.filter("votes IN", [1,-1]).count()
@@ -137,6 +149,9 @@ class SoundCloudLogin(webapp2.RequestHandler):
 
         # exchange authorization code for access token
         code = self.request.get("code")
+        if not code:
+            self.redirect("/")
+            return
         access_token = client.exchange_token(code).access_token
         session["sc_access"] = access_token
         # create client object with access token
@@ -145,6 +160,5 @@ class SoundCloudLogin(webapp2.RequestHandler):
         uid = current_user.id
         user = User.get_or_insert(str(uid), soundcloudUID=uid, soundcloudUserName=current_user.username)
         session["username"] = current_user.username
-        # if not user.soundcloudUserName:
-        #     user.soundcloudUserName = current_user.username
-        #     user.put()
+        session["uid"] = uid
+        self.redirect("/")

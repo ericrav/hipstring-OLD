@@ -29,9 +29,13 @@ class BaseHandler(webapp2.RequestHandler):
         return username
 class BaseUserInteraction(BaseHandler):
     def getUser(self, sound):
-        ip = self.request.remote_addr
-        userLog = sound.user_votes.filter("user =", ip).get()
-        return (ip, userLog)
+        session = get_current_session()
+        if session.has_key("uid"):
+            uid = str(session["uid"])
+        else:
+            uid = self.request.remote_addr
+        userLog = sound.user_votes.filter("user =", uid).get()
+        return (uid, userLog)
     def getIP(self):
         ip = self.request.remote_addr
         return ip
