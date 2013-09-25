@@ -15,6 +15,23 @@
     <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
     <script src="/static/js/bootstrap.js"></script>
     <script src="/static/js/script.js"></script>
+    <script src="http://connect.soundcloud.com/sdk.js"></script>
+    <script>
+    // initialize client with app credentials
+    SC.initialize({
+      client_id: '***REMOVED***',
+      redirect_uri: 'http://localhost:8080/sc_login'
+    });
+
+    // initiate auth popup
+    function soundcloudLogin(){
+      SC.connect(function() {
+        SC.get('/me', function(me) { 
+          alert('Hello, ' + me.username); 
+        });
+      });
+    }
+    </script>
     {%block scripts %}{% endblock %}
     <script type="text/javascript">    
       var _gaq = _gaq || [];
@@ -116,10 +133,15 @@
       </form>
     </li>
     <li>
+      {% if username == "" %}
       <a id="login" href="#" data-toggle="dropdown">Login/Register</a>
       <ul class="dropdown-menu" role="menu">
-      <li><fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button></li>
+        <li onclick="soundcloudLogin()"><img src="http://connect.soundcloud.com/2/btn-connect-l.png"></li>
+        {# <li><fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button></li> #}
       </ul>
+      {% else %}
+      <a href="#">{{username}}</a>
+      {% endif %}
     </li>
   </ul>
       </div>

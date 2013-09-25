@@ -23,6 +23,10 @@ class Sound(db.Model):
         self.posTotal = pos
         self.negTotal = neg
 
+class User(db.Model):
+    soundcloudUID = db.IntegerProperty()
+    soundcloudUserName = db.StringProperty()
+
 class UserLog(db.Model):
     votes = db.ListProperty(int, default=[0,0,0,0,0,0,0,0,0,0])
     user = db.StringProperty(required=True)

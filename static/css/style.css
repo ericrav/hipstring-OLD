@@ -112,6 +112,9 @@ body{
     margin-top: 5px;
     margin-bottom: 0px;
 }
+.navbar .dropdown-menu li img {
+    cursor: pointer;
+}
 .selectedSound-container{
     height: 100%;
     float: left;

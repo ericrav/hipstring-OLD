@@ -6,6 +6,10 @@ import webapp2
 import json
 import math
 
+import soundcloud
+
+from lib.gaesessions import get_current_session
+
 from google.appengine.api import memcache
 from google.appengine.ext.webapp import template
 from google.appengine.ext.db import GqlQuery
@@ -69,7 +73,7 @@ class GetRandom(webapp2.RequestHandler):
     def get(self):
         ip    = self.request.remote_addr
         gql   = "SELECT title, author, artwork, url FROM Sound WHERE artwork != ''"
-        songs   = GqlQuery(gql)
+        songs = GqlQuery(gql)
         num   = memcache.get("totalSoundCountWithArtwork")
         if not num:
             num = songs.count()
@@ -119,3 +123,28 @@ class RegisterHandler(BaseUserInteraction):
 
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(json.dumps(data))
+
+class SoundCloudLogin(webapp2.RequestHandler):
+    def get(self):
+        session = get_current_session()
+        if session.is_active():
+            session.terminate()
+
+        # create client object with app credentials
+        client = soundcloud.Client(client_id='***REMOVED***',
+                                   client_secret='***REMOVED***',
+                                   redirect_uri='http://localhost:8080/sc_login')
+
+        # exchange authorization code for access token
+        code = self.request.get("code")
+        access_token = client.exchange_token(code).access_token
+        session["sc_access"] = access_token
+        # create client object with access token
+        client = soundcloud.Client(access_token=access_token)
+        current_user = client.get('/me')
+        uid = current_user.id
+        user = User.get_or_insert(str(uid), soundcloudUID=uid, soundcloudUserName=current_user.username)
+        session["username"] = current_user.username
+        # if not user.soundcloudUserName:
+        #     user.soundcloudUserName = current_user.username
+        #     user.put()
