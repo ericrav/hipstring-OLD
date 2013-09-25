@@ -6,6 +6,10 @@ import webapp2
 import json
 import math
 
+import soundcloud
+
+from lib.gaesessions import get_current_session
+
 from google.appengine.api import memcache
 from google.appengine.ext.webapp import template
 from google.appengine.ext.db import GqlQuery
@@ -21,9 +25,13 @@ class BaseHandler(webapp2.RequestHandler):
                             "/../templates/",file)
 class BaseUserInteraction(BaseHandler):
     def getUser(self, sound):
-        ip = self.request.remote_addr
-        userLog = sound.user_votes.filter("user =", ip).get()
-        return (ip, userLog)
+        session = get_current_session()
+        if session.has_key("uid"):
+            uid = str(session["uid"])
+        else:
+            uid = self.request.remote_addr
+        userLog = sound.user_votes.filter("user =", uid).get()
+        return (uid, userLog)
     def getIP(self):
         ip = self.request.remote_addr
         return ip
@@ -67,9 +75,13 @@ class CreateHandler(webapp2.RequestHandler):
 
 class GetRandom(webapp2.RequestHandler):
     def get(self):
-        ip    = self.request.remote_addr
+        session = get_current_session()
+        if session.has_key("uid"):
+            ip = str(session["uid"])
+        else:
+            ip = self.request.remote_addr
         gql   = "SELECT title, author, artwork, url FROM Sound WHERE artwork != ''"
-        songs   = GqlQuery(gql)
+        songs = GqlQuery(gql)
         num   = memcache.get("totalSoundCountWithArtwork")
         if not num:
             num = songs.count()
@@ -97,7 +109,11 @@ class GetRandom(webapp2.RequestHandler):
 
 class GetUserStats(webapp2.RequestHandler):
     def get(self):
-        ip    = self.request.remote_addr
+        session = get_current_session()
+        if session.has_key("uid"):
+            ip = str(session["uid"])
+        else:
+            ip = self.request.remote_addr
         logs  = UserLog.all().filter("user =", ip)
         total = logs.count()
         voted = logs.filter("votes IN", [1,-1]).count()
@@ -119,3 +135,30 @@ class RegisterHandler(BaseUserInteraction):
 
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(json.dumps(data))
+
+class SoundCloudLogin(webapp2.RequestHandler):
+    def get(self):
+        session = get_current_session()
+        if session.is_active():
+            session.terminate()
+
+        # create client object with app credentials
+        client = soundcloud.Client(client_id='***REMOVED***',
+                                   client_secret='***REMOVED***',
+                                   redirect_uri='http://localhost:8080/sc_login')
+
+        # exchange authorization code for access token
+        code = self.request.get("code")
+        if not code:
+            self.redirect("/")
+            return
+        access_token = client.exchange_token(code).access_token
+        session["sc_access"] = access_token
+        # create client object with access token
+        client = soundcloud.Client(access_token=access_token)
+        current_user = client.get('/me')
+        uid = current_user.id
+        user = User.get_or_insert(str(uid), soundcloudUID=uid, soundcloudUserName=current_user.username)
+        session["username"] = current_user.username
+        session["uid"] = uid
+        self.redirect("/")

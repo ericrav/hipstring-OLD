@@ -4,6 +4,10 @@ import random
 import logging
 import webapp2
 
+import soundcloud
+
+from lib.gaesessions import get_current_session
+
 from google.appengine.api import memcache
 from google.appengine.ext.webapp import template
 
@@ -16,17 +20,28 @@ class BaseHandler(webapp2.RequestHandler):
     def getPath(self,file):
         return os.path.join(os.path.dirname(__file__) +
                             "/../templates/",file)
+    def getUsername(self):
+        session = get_current_session()
+        if session.has_key("username"):
+            username = session["username"]
+        else:
+            username = ""
+        return username
 class BaseUserInteraction(BaseHandler):
     def getUser(self, sound):
-        ip = self.request.remote_addr
-        userLog = sound.user_votes.filter("user =", ip).get()
-        return (ip, userLog)
+        session = get_current_session()
+        if session.has_key("uid"):
+            uid = str(session["uid"])
+        else:
+            uid = self.request.remote_addr
+        userLog = sound.user_votes.filter("user =", uid).get()
+        return (uid, userLog)
     def getIP(self):
         ip = self.request.remote_addr
         return ip
 class HomeView(BaseHandler):
     def get(self):
-        values = {}
+        values = {"username":self.getUsername()}
         path = self.getPath("home.html")
         self.response.out.write(template.render(path, values))
 
@@ -68,7 +83,8 @@ class SongHandler(BaseUserInteraction):
         attributesData = zip(atts,titletexts,votes)
         votingValues = zip(sound.positives,sound.negatives)
         values = {"title":sound.title, "author":sound.author, "artwork":artwork, "voters": voters,
-                  "songURL":id, "attributesData":attributesData, "votingValues":votingValues}
+                  "songURL":id, "attributesData":attributesData, "votingValues":votingValues,
+                  "username":self.getUsername()}
         path = self.getPath("song.html")
         self.response.out.write(template.render(path, values))
     def post(self, id):

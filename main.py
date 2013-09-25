@@ -30,6 +30,7 @@ app = webapp2.WSGIApplication([
     (r'/new/([\w-]+/[\w-]+)/?', NewHandler),
     (r'/sc/([\w-]+/[\w-]+)/?', SongHandler),
     (r'/([\w-]+/[\w-]+)/?', SongHandler),
+    (r'/sc_login', SoundCloudLogin),
     (r'/random', RandomHandler),
     (r'/visited', VisitedHandler),
     (r'/create', CreateHandler),
