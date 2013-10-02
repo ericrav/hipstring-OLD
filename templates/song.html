@@ -14,79 +14,51 @@
 {% block primary %}
 {% include 'moretracks.html' %}
 	<div class="main-container">
-		<div class="selectedSound-container">
-			<div class="selectedSound">
-				<div class="color-bg">
-					<div class="soundplayer">
-						<script src="//connect.soundcloud.com/sdk.js"></script>
-						<script>
-							SC.initialize({
-								client_id: '***REMOVED***'});
-						</script>
-						<div id="putTheWidgetHere"></div> 
-						<script type="text/JavaScript">
-							SC.oEmbed(('https:' == document.location.protocol ? 'https://' : 'http://') + "www.soundcloud.com/{{songURL}}", 
-							{color: "000066", sharing: false, auto_play: true},  document.getElementById("putTheWidgetHere"));    
-						</script>
+      <div class="soundplayer">
+        <script src="http://connect.soundcloud.com/sdk.js"></script>
+        <script>
+          SC.initialize({
+          client_id: '***REMOVED***'});
+        </script>
+        <div id="putTheWidgetHere"></div> 
+        <script type="text/JavaScript">
+          SC.oEmbed(('https:' == document.location.protocol ? 'https://' : 'http://') + "www.soundcloud.com/{{songURL}}", {color: "000066", sharing: false, auto_play: true}, document.getElementById("putTheWidgetHere"));     
+        </script>
+      </div>
+		<div class="cta">
+			<p>{{voters}} 
+			{% if voters == 1 %}
+				listener has 
+			{% else %}
+				listeners have
+			{% endif %}
+			provided this artist with feedback.
+			{% if voters == 0 %}
+				Be the first.
+			{% endif %}
+			</p>
+			<p><strong>Break it down: </strong></p>
+		</div>
+		<script>
+			document.votingValues = [];
+			{% for p, n in votingValues %}
+				document.votingValues.push([{{p}},{{n}}]);
+			{% endfor %}
+		</script>
+		{% for att,titleText,vote in attributesData %}
+			<div data-att="{{0}}" class="attribute {{vote}}">
+				<h2>{{att}} <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" rel="tooltip" title='{{titleText}}'></span></h2>
+				<div class="voting">
+					<div class="vote negative">
+						<span class="glyphicon glyphicon-thumbs-down"></span>
+						<span class="count"></span>
 					</div>
-					<div class="options-container">
-						<div class="sharing">
-							<a id="facebook-share-dialog" class="facebook">
-								<img src="/static/img/facebook.png">
-								Share
-							</a>
-							<a id="twitterwindow" class="twitter">
-								<img src="/static/img/twitter.png">
-								Share
-							</a>
-						</div>
-						<div class="stats">
-							<p>{{voters}} 
-							{% if voters == 1 %}
-								listener has 
-							{% else %}
-								listeners have
-							{% endif %}
-							provided this artist with feedback.
-							{% if voters == 0 %}
-								Be the first.
-							{% endif %}
-							</p>
-						</div>
-						<div class="voting">
-							<a class="selected" id="positive">What I Like</a>
-							<a id="negative">What I Don't Like</a>
-						</div>
-						<script>
-							document.votingValues = [];
-							{% for p, n in votingValues %}
-								document.votingValues.push([{{p}},{{n}}]);
-							{% endfor %}
-						</script>
-						<ul id="elements" class="elements">
-							{% for att,titleText,vote in attributesData %}
-									<li id="{{att}}" class="attribute{{vote}}" data-toggle="tooltip" rel="tooltip" title='{{titleText}}' >
-									<p  class="attName">{{att}}</p>
-									<div class="info"><i class="icon-question-sign"></i></div>
-									<div class="stats-toggle"><i class="icon-info-sign"></i></div>
-									<div class="voting-stats">
-										<div class="positive">
-											<i class="icon-thumbs-up"></i>
-											<div class="bar"></div>
-											<span class="number">0</span>
-										</div>
-										<div class="negative">
-											<i class="icon-thumbs-down"></i>
-											<div class="bar"></div>
-											<span class="number">0</span>
-										</div>
-									</div>
-								</li>
-							{% endfor %}
-						</ul>
+					<div class="vote positive">
+						<span class="glyphicon glyphicon-thumbs-up"></span>
+						<span class="count"></span>
 					</div>
 				</div>
 			</div>
-		</div>
+		{% endfor %}
 	</div>
 {% endblock %}

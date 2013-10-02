@@ -4,8 +4,8 @@ $(document).ready(function () {
         var total  = stats.total;
         var voted  = stats.voted;
         var plural = parseInt(total) == 1 ? "" : "s";
-        $(".more-tracks").prepend("<div><h2><i class='icon-user'></i></h2><p class='stats'>You have listened to "
-                                  + total + " song" + plural + " and rated " + voted + " of them.</div>");
+        // $(".more-tracks").prepend("<div><h2><i class='icon-user'></i></h2><p class='stats'>You have listened to "
+                                  // + total + " song" + plural + " and rated " + voted + " of them.</div>");
     });
     $.get("/songs/random/", function(songData){
         moreTracksHtml = "";
@@ -71,7 +71,7 @@ $(document).ready(function () {
                 $("#loginModal .response").html("<div class='alert alert-success'>Thanks! Talk to you soon.</div>");
                 setTimeout(function(){$("#loginModal").modal("hide");}, 750);
             } else{
-                $("#loginModal .response").html("<div class='alert alert-error'>Woops. Something wasn't right.</div>");
+                $("#loginModal .response").html("<div class='alert alert-danger'>Woops. Something wasn't right.</div>");
                 _gaq.push(['_trackEvent', 'Email', "Invalid"]);
             }
         });

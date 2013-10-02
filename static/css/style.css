@@ -27,6 +27,15 @@ ul {
     padding-top: 15px;
     padding-bottom: 15px;
 }
+.navbar .dropdown-menu li {
+    margin: 5px 0;
+}
+.navbar .dropdown-menu li img {
+    cursor: pointer;
+}
+.navbar .dropdown-menu li a {
+    font-size: 12px;
+}
 .pull-right {
     float: right;
 }
