@@ -45,15 +45,15 @@
 				document.votingValues.push([{{p}},{{n}}]);
 			{% endfor %}
 		</script>
-		{% for att,titleText,vote in attributesData %}
-			<div data-att="{{0}}" class="attribute {{vote}}">
-				<h2>{{att}} <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" rel="tooltip" title='{{titleText}}'></span></h2>
+		{% for i,att,titleText,vote in attributesData %}
+			<div data-att="{{i}}" class="attribute{{vote}}">
+				<h2>{{att}} <span class="info glyphicon glyphicon-question-sign" data-toggle="tooltip" rel="tooltip" title='{{titleText}}'></span></h2>
 				<div class="voting">
-					<div class="vote negative">
+					<div data-value="negative" class="vote negative">
 						<span class="glyphicon glyphicon-thumbs-down"></span>
 						<span class="count"></span>
 					</div>
-					<div class="vote positive">
+					<div data-value="positive" class="vote positive">
 						<span class="glyphicon glyphicon-thumbs-up"></span>
 						<span class="count"></span>
 					</div>

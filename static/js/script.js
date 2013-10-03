@@ -1,5 +1,11 @@
-var voting = "positive";
 $(document).ready(function () {
+    $atts = $(".attribute");
+    for (var i=0; i<$atts.length; i++) {
+        if ($($atts[i]).hasClass("rated")) {
+            $($atts[i]).find(".positive > .count").text(document.votingValues[i][0]);
+            $($atts[i]).find(".negative > .count").text(document.votingValues[i][1]);
+        }
+    }
     $.get("/user/stats/", function(stats){
         var total  = stats.total;
         var voted  = stats.voted;
@@ -54,13 +60,10 @@ $(document).ready(function () {
 	}
     $(".navbar .newsong").tooltip({placement: "bottom"});
 	$(".more-tracks h2 i").tooltip({placement: "bottom"});
-    $(".attribute").tooltip({delay: {show: 1200, hide:100}, trigger: "manual"});
-    $(".attribute .info").hover(function(){$(this).parent().tooltip('show');},
-								function(){$(this).parent().tooltip('hide');});
-    $(".attribute .info").click(function(){$(this).parent().tooltip('toggle');});
-    $(".attribute .stats-toggle").hover(function(e){showVotingStats(e, 'show');},
-										function(e){showVotingStats(e, 'hide');});
-    $(".attribute .stats-toggle").click(function(e){showVotingStats(e, 'toggle');});
+    $(".attribute .info").tooltip({delay: {show: 1200, hide:100}, trigger: "manual"});
+    $(".attribute .info").hover(function(){$(this).tooltip('show');},
+								function(){$(this).tooltip('hide');});
+    $(".attribute .info").click(function(){$(this).tooltip('toggle');});
     
     $("#loginModal .submit-btn").click(function(e){
         var email = $("#loginModal input.email").val();
@@ -77,72 +80,69 @@ $(document).ready(function () {
         });
     });
 
-    $(".voting a").click(function() {
-    	$(".voting a.selected").removeClass("selected");
-    	$(this).addClass("selected");
-    	voting = $(this).attr("id");
-        _gaq.push(['_trackEvent', 'Change Voting', voting]);
-    	var $elements = $(".elements li."+voting);
-    	$elements.css("background","#333");
-    	setTimeout(function(){$elements.css("background","");},115);
-    });
-    $(".elements li p").click(function() {
-    	var $el = $(this).parent();
-        var att = $el.attr("id");
-    	if ($el.hasClass(voting)) {
+    $(".attribute .voting .vote").click(function() {
+        var vote = $(this).attr("data-value");
+    	var $el = $(this).parent().parent();
+        var att = parseInt($el.attr("data-att"));
+    	if ($el.hasClass(vote)) {
+            if (vote == "positive") document.votingValues[att][0]--;
+            else document.votingValues[att][1]--;
     	    $el.removeClass();
-            _gaq.push(['_trackEvent', 'Unrate', att, voting]);
+            $el.addClass("attribute");
+            $el.find(".positive > .count").text("");
+            $el.find(".negative > .count").text("");
+            vote = "none";
+            _gaq.push(['_trackEvent', 'Unrate', att, vote]);
     	} else {
+            if ($el.hasClass("rated")) var rated = true;
+            if (vote == "positive") {
+                document.votingValues[att][0]++;
+                if (rated) document.votingValues[att][1]--;
+            } else {
+                document.votingValues[att][1]++;
+                if (rated) document.votingValues[att][0]--;
+            }
     	    $el.removeClass();
-    	    $el.addClass(voting + " rated");
-            _gaq.push(['_trackEvent', 'Rate', att, voting]);
+    	    $el.addClass(vote + " rated attribute");
+            $el.find(".positive > .count").text(document.votingValues[att][0]);
+            $el.find(".negative > .count").text(document.votingValues[att][1]);
+            _gaq.push(['_trackEvent', 'Rate', att, vote]);
     	}
-    	countVotes();
-        submitVotes(att);
+        submitVotes(att, vote);
     });
 });
-$(window).resize(function () {
-	$(".more-tracks").css("top", $(".selectedSound").height() + "px");
-});
-var showVotingStats = function(e, option) {
-    var $el = $(e.currentTarget).parent(),
-    $p      = $el.find("p.attName"),
-    $stats  = $el.find("div.voting-stats");
-    if (option=="show") {
-    	$p.animate({'opacity':0});
-    	$stats.fadeIn();
-    } else if (option=="hide") {
-    	$p.animate({'opacity':1});
-    	$stats.fadeOut();
-    } else {
-    	if ($p.css("opacity") == 1) {
-    		showVotingStats(e, "show");
-    	} else {
-    		showVotingStats(e, "hide");
-    	}
-    }
-}
+// $(window).resize(function () {
+// 	$(".more-tracks").css("top", $(".selectedSound").height() + "px");
+// });
+// var showVotingStats = function(e, option) {
+//     var $el = $(e.currentTarget).parent(),
+//     $p      = $el.find("p.attName"),
+//     $stats  = $el.find("div.voting-stats");
+//     if (option=="show") {
+//     	$p.animate({'opacity':0});
+//     	$stats.fadeIn();
+//     } else if (option=="hide") {
+//     	$p.animate({'opacity':1});
+//     	$stats.fadeOut();
+//     } else {
+//     	if ($p.css("opacity") == 1) {
+//     		showVotingStats(e, "show");
+//     	} else {
+//     		showVotingStats(e, "hide");
+//     	}
+//     }
+// }
 
-var countVotes = function() {
-    var val = $('.elements li.positive').length - $('.elements li.negative').length;
-    if (val > 0) {
-	$('.color-bg').css({'background':'rgba(58,139,232,'+String(val*0.025)+')'});
-    } else if (val < 0) {
-	$('.color-bg').css({'background':'rgba(217,87,76,'+String(val*-0.025)+')'});
-    } else {
-	$('.color-bg').css({'background':'rgba(0,0,0,0)'});
-    }
-}
-
-var submitVotes = function(att) {
-    var $att = $("#"+att);
-    var vote = "0";
-    if ($att.hasClass("positive")) {
+var submitVotes = function(att, vote) {
+    if (vote == "positive") {
         vote = "y";
-    } else if ($att.hasClass("negative")) {
+    } else if (vote == "negative") {
         vote = "n";
+    } else {
+        vote = "0";
     }
     var data = {};
-    data[att] = vote
+    data["att"] = att;
+    data["vote"] = vote;
     $.post(window.location, data);
 }

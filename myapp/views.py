@@ -80,7 +80,7 @@ class SongHandler(BaseUserInteraction):
         # Render the page, if valid track
         artwork = sound.artwork
         voters = sound.user_votes.filter("votes IN", [1,-1]).count()
-        attributesData = zip(atts,titletexts,votes)
+        attributesData = zip(range(10),atts,titletexts,votes)
         votingValues = zip(sound.positives,sound.negatives)
         values = {"title":sound.title, "author":sound.author, "artwork":artwork, "voters": voters,
                   "songURL":id, "attributesData":attributesData, "votingValues":votingValues,
@@ -94,40 +94,40 @@ class SongHandler(BaseUserInteraction):
             return
         userVotes = userLog.votes
         changed = False
-        for i in xrange(len(atts)):
-            vote = self.request.get("%s" %atts[i])
-            if vote == "y":
-                oldVote = userVotes[i]
-                if oldVote == 0:
-                    sound.positives[i] += 1
-                elif oldVote == -1:
-                    sound.negatives[i] -= 1
-                    sound.positives[i] += 1
-                else:
-                    continue
-                userLog.votes[i] = 1
-                changed = True
-            elif vote == "n":
-                oldVote = userVotes[i]
-                if oldVote == 0:
-                    sound.negatives[i] += 1
-                elif oldVote == 1:
-                    sound.positives[i] -= 1
-                    sound.negatives[i] += 1
-                else:
-                    continue
-                userLog.votes[i] = -1
-                changed = True
-            elif vote == "0":
-                oldVote = userVotes[i]
-                if oldVote == 1:
-                    sound.positives[i] -= 1
-                elif oldVote == -1:
-                    sound.negatives[i] -= 1
-                else:
-                    continue
-                userLog.votes[i] = 0
-                changed = True
+        att = int(self.request.get("att"))
+        vote = self.request.get("vote")
+        if vote == "y":
+            oldVote = userVotes[att]
+            if oldVote == 0:
+                sound.positives[att] += 1
+            elif oldVote == -1:
+                sound.negatives[att] -= 1
+                sound.positives[att] += 1
+            else:
+                return
+            userLog.votes[att] = 1
+            changed = True
+        elif vote == "n":
+            oldVote = userVotes[att]
+            if oldVote == 0:
+                sound.negatives[att] += 1
+            elif oldVote == 1:
+                sound.positives[att] -= 1
+                sound.negatives[att] += 1
+            else:
+                return
+            userLog.votes[att] = -1
+            changed = True
+        elif vote == "0":
+            oldVote = userVotes[att]
+            if oldVote == 1:
+                sound.positives[att] -= 1
+            elif oldVote == -1:
+                sound.negatives[att] -= 1
+            else:
+                return
+            userLog.votes[att] = 0
+            changed = True
         if changed:
             sound.findSum()
             sound.lastVoted = datetime.datetime.now()
