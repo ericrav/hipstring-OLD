@@ -123,8 +123,6 @@ nav ul.nav.pull-right {
     margin: 0px 4px;
     min-width: 30px;
     height: 30px;
-    transition: width 1s;
-    -webkit-transition: width 1s;
     background-color: #f1f1f1;
 }
 .rated .voting .vote {
@@ -138,7 +136,15 @@ nav ul.nav.pull-right {
     font-size: 18px;
     margin-left: 6px;
 }
+.attribute .voting .count {
+    display: inline-block;
+    overflow: hidden;
+    transition: max-width 0.4s;
+    -webkit-transition: max-width 0.4s;
+    max-width: 0px;
+}
 .rated .voting .count {
+    max-width: 70px;
     font-size: 18px;
     margin: 0 4px;
     line-height: 30px;

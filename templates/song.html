@@ -26,25 +26,10 @@
         </script>
       </div>
 		<div class="cta">
-			<p>{{voters}} 
-			{% if voters == 1 %}
-				listener has 
-			{% else %}
-				listeners have
-			{% endif %}
-			provided this artist with feedback.
-			{% if voters == 0 %}
-				Be the first.
-			{% endif %}
-			</p>
+			<p>{{voters}} {% if voters == 1 %}listener has {% else %}listeners have {% endif %}provided this artist with feedback.{% if voters == 0 %} Be the first.{% endif %}</p>
 			<p><strong>Break it down: </strong></p>
 		</div>
-		<script>
-			document.votingValues = [];
-			{% for p, n in votingValues %}
-				document.votingValues.push([{{p}},{{n}}]);
-			{% endfor %}
-		</script>
+		<script>document.votingValues=[];{% for p, n in votingValues %}document.votingValues.push([{{p}},{{n}}]);{% endfor %}</script>
 		{% for i,att,titleText,vote in attributesData %}
 			<div data-att="{{i}}" class="attribute{{vote}}">
 				<h2>{{att}} <span class="info glyphicon glyphicon-question-sign" data-toggle="tooltip" rel="tooltip" title='{{titleText}}'></span></h2>
