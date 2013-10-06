@@ -45,15 +45,15 @@ ul {
 nav ul.nav.pull-right {
     margin-right: 10px;
 }
-.btn-default, .btn-default:hover, .form-control{
+.navbar .btn-default, .navbar .btn-default:hover, .navbar .form-control{
     border-color: #3D697F;
 
 }
-.input-group-btn > button {
+.navbar .input-group-btn > button {
     border-left: none;
     background-color: #6398E8;
 }
-.input-group-btn > button:hover, .btn-default:hover{
+.navbar .input-group-btn > button:hover, .navbar .btn-default:hover{
     background-color: #6398E8;
 }
 
@@ -65,6 +65,7 @@ nav ul.nav.pull-right {
 
 .soundplayer {
     margin: 15px;
+    margin-bottom: 5px;
 }
 .main-container .cta {
     margin-left: 15px;
@@ -262,6 +263,26 @@ aside:hover {
     width: 50px;
     margin-left: -25px;
     text-align: center;
+}
+
+.sharing {
+    margin-left: 15px;
+    margin-bottom: 15px;
+    vertical-align: middle;
+}
+.sharing button {
+    display: inline-block;
+    height: 35px;
+}
+.sharing .facebook img {
+    width: 18px;
+    height: 18px;
+    margin: -5px 6px;
+}
+.sharing .twitter img {
+    width: 32px;
+    height: 32px;
+    margin: -4px 0;
 }
 
 #loginModal {

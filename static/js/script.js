@@ -26,24 +26,22 @@ $(document).ready(function () {
         }
         $(".more-tracks .tracks-container").html(moreTracksHtml);
     });
-	$("a.twitter").attr("href", "https://twitter.com/share?url=" + encodeURIComponent(document.URL));
-	$("a.facebook").attr("href", "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(document.URL));
-	$(".sharing a").click(function(event) {
+	$(".twitter").attr("data-location", "https://twitter.com/share?url=" + encodeURIComponent(document.URL));
+	$(".facebook").attr("data-location", "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(document.URL));
+	$(".sharing button").click(function(event) {
         var id = $(this).attr("id");
-        var site = $(this).attr("class");
+        var site = $(this).attr("data-medium");
         _gaq.push(['_trackEvent', 'Share', site]);
     var width  = 575, height = 400, left   = ($(window).width()  - width)  / 2,
         top    = ($(window).height() - height) / 2,
-        url    = this.href,
+        url    = $(this).attr("data-location"),
         opts   = 'status=1' +
                  ',width='  + width  +
                  ',height=' + height +
                  ',top='    + top    +
                  ',left='   + left;
-
-    window.open(url, id, opts);
-
-    return false;
+        window.open(url, id, opts);
+        return false;
   });
 	$(".more-tracks").css("top", $(".selectedSound").height() + "px");
 	var votingStats = document.votingValues;

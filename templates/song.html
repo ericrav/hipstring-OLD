@@ -25,6 +25,10 @@
           SC.oEmbed(('https:' == document.location.protocol ? 'https://' : 'http://') + "www.soundcloud.com/{{songURL}}", {color: "000066", sharing: false, auto_play: true}, document.getElementById("putTheWidgetHere"));     
         </script>
       </div>
+      	<div class="sharing">
+      		<button type="button" class="btn btn-default facebook" data-medium="facebook" id="facebook-share-dialog" class="facebook"><img src="/static/img/facebook.png"> Share</button>
+			<button type="button" class="btn btn-default twitter" data-medium="twitter" id="twitterwindow"><img src="/static/img/twitter.png"> Share</button>
+		</div>
 		<div class="cta">
 			<p>{{voters}} {% if voters == 1 %}listener has {% else %}listeners have {% endif %}provided this artist with feedback.{% if voters == 0 %} Be the first.{% endif %}</p>
 			<p><strong>Break it down: </strong></p>
