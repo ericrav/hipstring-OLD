@@ -78,7 +78,7 @@ class SongHandler(BaseUserInteraction):
             votes = ["","","","","","","","","",""]
 
         # Render the page, if valid track
-        artwork = sound.artwork
+        artwork = sound.artwork.replace("-large","-t500x500")
         voters = sound.user_votes.filter("votes IN", [1,-1]).count()
         attributesData = zip(range(10),atts,titletexts,votes)
         votingValues = zip(sound.positives,sound.negatives)
