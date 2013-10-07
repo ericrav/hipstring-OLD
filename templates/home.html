@@ -2,35 +2,26 @@
 {% block title %}Hipstring{% endblock %}
 {% block primary %}
   <div id="home" class="main-container">
-    <div class="selectedSound-container">
-      <div class="selectedSound">
-        <div class="color-bg">
-          <div class="copy hero-unit">
-            <h1>Welcome, friend.</h1>
-            <div class="brand">HIPSTRING</div>
-            <h2>Don't be a selfish fan.</h2>
-            <p>Get more out of your music by <em>thinking</em> about why you may love or hate it, all while connecting to the people behind the work by giving them the invaluable feedback they deserve.</p>
-            <p class="cta">Check out one of these tracks to get started. Or, if you have your own music on SoundCloud, enter the URL for one of your tracks:</p>
-            <form name="songURL" class="inline-form" action="/create" method="post" accept-charset="utf-8" onsubmit="_gaq.push(['_trackEvent', 'Add Track', 'Home Page Form']);">
-              <div class="input-append">
-                <input type="text" name="entry" placeholder="soundcloud.com/artist/track" id="entry" onclick="javascript:this.focus();this.select();">
-                <button class="btn" type="submit" value="Enter">Enter</button>
-              </div>
-            </form>
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Get feedback on your music while you need it.</h1>
+        <p>Hipstring gives beginner and independent musicians the easiest way to receive feedback by encouraging listeners to come to <em>your</em> work and by guiding them to leave insightful comments.</p>
+      </div>
+      <a class="attribution" href="http://www.flickr.com/photos/blackbass/4531455346/in/photostream/" target="_blank">Photo by blackbass</a>
+    </div>
+    <div class="cta-container">
+      <div class="getting-started">
+        <h2>See Hipstring in action by adding one of your SoundCloud tracks below or by selecting one of the existing tracks.</h2>
+        <form name="songURL" class="navbar-form" action="/create" method="post" accept-charset="utf-8" onsubmit="_gaq.push(['_trackEvent', 'Add Track', 'Home Page']);">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="soundcloud.com/artist/track" name="entry" id="entry" onclick="javascript:this.focus();this.select();">
+            <div class="input-group-btn">
+              <button class="btn btn-default" type="submit">Add</button>
+            </div>
           </div>
-          <div class="sharing">
-            <a class="facebook">
-              <img src="/static/img/facebook.png">
-              Share
-            </a>
-            <a class="twitter">
-              <img src="/static/img/twitter.png">
-              Share
-            </a>
-          </div>
-        </div>
+        </form>
       </div>
     </div>
-  {% include 'moretracks.html' %}
+    <div class="more-tracks"><div class="tracks-container"></div></div>
   </div>
 {% endblock %}
