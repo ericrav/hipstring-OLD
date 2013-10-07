@@ -11,23 +11,6 @@
     <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script src="/static/js/script.js"></script>
-    <script src="http://connect.soundcloud.com/sdk.js"></script>
-    <script>
-    // initialize client with app credentials
-    SC.initialize({
-      client_id: '***REMOVED***',
-      redirect_uri: 'http://hipstring.me/sc_login'
-    });
-
-    // initiate auth popup
-    function soundcloudLogin(){
-      SC.connect(function() {
-        SC.get('/me', function(me) { 
-          alert('Hello, ' + me.username); 
-        });
-      });
-    }
-    </script>
     {%block scripts %}{% endblock %}
     <script type="text/javascript">    
       var _gaq = _gaq || [];
@@ -56,11 +39,11 @@
         {% if username == "" %}
         <button type="button" class="btn btn-default navbar-btn" data-toggle="dropdown">Sign in</button>
         <ul class="dropdown-menu" role="menu">
-          <li onclick="soundcloudLogin()"><img src="http://connect.soundcloud.com/2/btn-connect-l.png"></li>
+          <li><a href="/sc_authorize"><img src="http://connect.soundcloud.com/2/btn-connect-l.png"></a></li>
           <li><a href="#" data-toggle="modal" data-target="#loginModal">Don't have SoundCloud? Click here.</a></li>
         </ul>
         {% else %}
-        <a href="#">{{username}}</a>
+        <a class="username" href="#">{{username}}</a>
         {% endif %}
         </li>
       </ul>

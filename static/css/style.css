@@ -113,6 +113,13 @@ nav ul.nav.pull-right {
 .navbar .input-group-btn > button:hover, .navbar .btn-default:hover{
     background-color: #6398E8;
 }
+.navbar .username {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 200px;
+    font-size: 16px;
+}
 
 .main-container {
     display: block;
