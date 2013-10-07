@@ -150,7 +150,7 @@ nav ul.nav.pull-right {
     line-height: 35px;
     font-size: 26px;
     margin: 0 0 5px;
-    cursor: pointer;
+    /*cursor: pointer;*/
     color: #261D1D;
     border-bottom: 1px solid #261D1D;
     padding-left: 3px;
@@ -163,12 +163,12 @@ nav ul.nav.pull-right {
     border: 5px solid transparent;
     border-left-color: #777;
 }
-.attribute > h2:hover:before {
+/*.attribute > h2:hover:before {
     border-left-color: #6398E8;
 }
 .attribute > h2:hover {
     color: #6398E8;
-}
+}*/
 .attribute > h2 .glyphicon {
     color: #261D1D;
     font-size: 14px;
