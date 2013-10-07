@@ -55,8 +55,11 @@ ul {
     margin-top: 20px;
     border-top: 1px solid #555;
 }
+#home .more-tracks .tracks-container {
+    text-align: center;
+}
 #home .more-tracks .track {
-    min-width: 12%;
+    min-width: 16%;
     display: inline-block;
 }
 #home .more-tracks .track span {
