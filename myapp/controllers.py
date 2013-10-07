@@ -136,6 +136,15 @@ class RegisterHandler(BaseUserInteraction):
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(json.dumps(data))
 
+class SoundCloudAuthorize(webapp2.RequestHandler):
+    def get(self):
+        # create client object with app credentials
+        client = soundcloud.Client(client_id=soundcloud_id,
+                                   client_secret=soundcloud_secret,
+                                   redirect_uri=soundcloud_redirect)
+        self.redirect(client.authorize_url())
+        
+
 class SoundCloudLogin(webapp2.RequestHandler):
     def get(self):
         session = get_current_session()
@@ -143,9 +152,9 @@ class SoundCloudLogin(webapp2.RequestHandler):
             session.terminate()
 
         # create client object with app credentials
-        client = soundcloud.Client(client_id='***REMOVED***',
-                                   client_secret='***REMOVED***',
-                                   redirect_uri='http://hipstring.me/sc_login')
+        client = soundcloud.Client(client_id=soundcloud_id,
+                                   client_secret=soundcloud_secret,
+                                   redirect_uri=soundcloud_redirect)
 
         # exchange authorization code for access token
         code = self.request.get("code")

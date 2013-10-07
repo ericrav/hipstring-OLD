@@ -1,3 +1,7 @@
+soundcloud_id = "***REMOVED***"
+soundcloud_secret = "***REMOVED***"
+soundcloud_redirect = "http://hipstring.me/sc_login"
+
 atts = ["Melody","Harmony","Rhythm","Tempo","Instrumentation",
         "Tone","Production","Dynamics","Originality","Form"]
         
