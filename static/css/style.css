@@ -125,6 +125,7 @@ nav ul.nav.pull-right {
     display: block;
     overflow: hidden;
     width: auto;
+    padding-bottom: 40px;
 }
 
 .soundplayer {
