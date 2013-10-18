@@ -31,7 +31,7 @@ $(document).ready(function () {
 	$(".sharing button").click(function(event) {
         var id = $(this).attr("id");
         var site = $(this).attr("data-medium");
-        _gaq.push(['_trackEvent', 'Share', site]);
+        _gaq.push(['_trackEvent', 'Share', site, "Song"]);
     var width  = 575, height = 400, left   = ($(window).width()  - width)  / 2,
         top    = ($(window).height() - height) / 2,
         url    = $(this).attr("data-location"),
