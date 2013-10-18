@@ -82,6 +82,7 @@ $(document).ready(function () {
         var vote = $(this).attr("data-value");
     	var $el = $(this).parent().parent();
         var att = parseInt($el.attr("data-att"));
+        var attName = $el.find("h2").text();
     	if ($el.hasClass(vote)) {
             if (vote == "positive") document.votingValues[att][0]--;
             else document.votingValues[att][1]--;
@@ -90,7 +91,7 @@ $(document).ready(function () {
             $el.find(".positive > .count").text("");
             $el.find(".negative > .count").text("");
             vote = "none";
-            _gaq.push(['_trackEvent', 'Unrate', att, vote]);
+            _gaq.push(['_trackEvent', 'Unrate', attName, vote, att]);
     	} else {
             if ($el.hasClass("rated")) var rated = true;
             if (vote == "positive") {
@@ -104,7 +105,7 @@ $(document).ready(function () {
     	    $el.addClass(vote + " rated attribute");
             $el.find(".positive > .count").text(document.votingValues[att][0]);
             $el.find(".negative > .count").text(document.votingValues[att][1]);
-            _gaq.push(['_trackEvent', 'Rate', att, vote]);
+            _gaq.push(['_trackEvent', 'Rate', attName, vote, att]);
     	}
         submitVotes(att, vote);
     });
