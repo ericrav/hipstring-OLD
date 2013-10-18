@@ -39,8 +39,8 @@ $(document).ready(function () {
 			$("#save_btn").attr("disabled", "disabled")
 		});
 	});
-	$(".twitter").attr("data-location", "https://twitter.com/share?url=" + encodeURIComponent(document.domain + "/" + $("meta[property='songURL']").attr("content")));
-	$(".facebook").attr("data-location", "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(document.domain + "/" + $("meta[property='songURL']").attr("content")));
+	$(".twitter").attr("data-location", "https://twitter.com/share?url=" + encodeURIComponent(location.protocol + "//" + document.domain + "/" + $("meta[property='songURL']").attr("content")) + "&via=hipstring");
+	$(".facebook").attr("data-location", "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(location.protocol + "//" + document.domain + "/" + $("meta[property='songURL']").attr("content")));
 	$(".sharing button").click(function(event) {
         var id = $(this).attr("id");
         var site = $(this).attr("data-medium");

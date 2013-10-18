@@ -168,12 +168,12 @@ class EditSongHandler(BaseUserInteraction):
         for i in range(10):
             att = self.request.get(str(i))
             if att:
-                if len(att) < 20:
+                if len(att) < 20 and att != sound.attributes[i]:
                     sound.attributes[i] = att
                     changed = True
             info = self.request.get("info"+str(i))
             if info:
-                if len(info) < 200:
+                if len(info) < 200 and info != sound.attributesInfo[i]:
                     sound.attributesInfo[i] = info
                     changed = True
         if changed:
