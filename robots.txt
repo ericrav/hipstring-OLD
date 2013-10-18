@@ -1,6 +1,7 @@
 User-agent: Googlebot
 Disallow: /random
 Disallow: /visited
+Disallow: /edit
 
 User-agent: *
 Disallow: /

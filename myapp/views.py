@@ -80,7 +80,7 @@ class SongHandler(BaseUserInteraction):
         # Render the page, if valid track
         artwork = sound.artwork.replace("-large","-t500x500")
         voters = sound.user_votes.filter("votes IN", [1,-1]).count()
-        attributesData = zip(range(10),atts,titletexts,votes)
+        attributesData = zip(range(10),sound.attributes,sound.attributesInfo,votes)
         votingValues = zip(sound.positives,sound.negatives)
         values = {"title":sound.title, "author":sound.author, "artwork":artwork, "voters": voters,
                   "songURL":id, "attributesData":attributesData, "votingValues":votingValues,
@@ -133,6 +133,55 @@ class SongHandler(BaseUserInteraction):
             sound.lastVoted = datetime.datetime.now()
             sound.put()
             userLog.put()
+
+class EditSongHandler(BaseUserInteraction):
+    def find(self, id):
+        query = "SELECT * FROM Sound WHERE url = '%s'" %id
+        return db.GqlQuery(query).get()
+    def get(self, id):
+        # Check the id
+        id = id.lower()
+        sound = self.find(id)
+        if not sound:
+            self.redirect("/new/%s" %id)
+            return
+        # Check if sound has artwork
+        if not sound.artwork:
+            getArtwork(sound, id)
+
+        if self.getUsername() != sound.author:
+            self.redirect("/%s" %id)
+            return
+
+        attributesData = zip(range(10),sound.attributes,sound.attributesInfo)
+        values = {"title":sound.title, "author":sound.author,
+                  "songURL":id, "attributesData":attributesData,
+                  "username":self.getUsername()}
+        path = self.getPath("editsong.html")
+        self.response.out.write(template.render(path, values))
+    def post(self, id):
+        sound = self.find(id)
+        if self.getUsername() != sound.author:
+            self.redirect("/%s" %id)
+            return
+        changed = False
+        for i in range(10):
+            att = self.request.get(str(i))
+            if att:
+                if len(att) < 20:
+                    sound.attributes[i] = att
+                    changed = True
+            info = self.request.get("info"+str(i))
+            if info:
+                if len(info) < 200:
+                    sound.attributesInfo[i] = info
+                    changed = True
+        if changed:
+            sound.put()
+
+
+
+
 
 class RandomHandler(webapp2.RequestHandler):
     def get(self):

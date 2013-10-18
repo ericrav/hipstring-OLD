@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Editing {{title}} on Hipstring{% endblock %}
+{% block ogmeta %}
+<meta property="songURL" content="{{songURL}}" />
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/editsongscript.js"></script>
+{% endblock %}
+{% block primary %}
+{% include 'moretracks.html' %}
+	<div class="main-container editsong">
+      <div class="soundplayer">
+        <script src="http://connect.soundcloud.com/sdk.js"></script>
+        <script>
+          SC.initialize({
+          client_id: '***REMOVED***'});
+        </script>
+        <div id="putTheWidgetHere"></div> 
+        <script type="text/JavaScript">
+          SC.oEmbed(('https:' == document.location.protocol ? 'https://' : 'http://') + "www.soundcloud.com/{{songURL}}", {color: "000066", sharing: false, auto_play: false}, document.getElementById("putTheWidgetHere"));     
+        </script>
+      </div>
+      	<div class="sharing">
+      		<button type="button" class="btn btn-default facebook" data-medium="facebook" id="facebook-share-dialog" class="facebook"><img src="/static/img/facebook.png"> Share</button>
+			<button type="button" class="btn btn-default twitter" data-medium="twitter" id="twitterwindow"><img src="/static/img/twitter.png"> Share</button>
+		</div>
+		<div class="cta">
+			<p>{{voters}} {% if voters == 1 %}listener has {% else %}listeners have {% endif %}provided this artist with feedback.</p>
+			<p>Your selected attributes: </p>
+		</div>
+    {% for i,att,titleText in attributesData %}
+      <div class="attribute" data-att={{i}}>
+        <span>Attribute name: </span><input data-att={{i}} type="text" value="{{att}}">
+        <br>
+        <span>More information to explain the attribute to your listeners:</span>
+        <textarea>{{titleText}}</textarea>
+      </div>
+    {% endfor %}
+    <div class="buttons">
+      <a href="/{{songURL}}" type="button" class="btn btn-default">Cancel</a>
+      <button id="save_btn" type="button" class="btn btn-primary" disabled="disabled">Save Your Changes</button>
+    </div>
+  </div>
+  {% endblock %}

@@ -353,3 +353,21 @@ aside:hover {
 #loginModal {
     text-align: center;
 }
+
+
+.editsong .attribute {
+    margin-bottom: 25px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #555;
+}
+.editsong .edited {
+    outline: 2px solid #6398E8;
+}
+.editsong .invalid {
+    outline: 2px solid #d9534f;
+}
+.editsong .buttons {
+    display: inline-block;
+    margin-top: 15px;
+    margin-left: 15px;
+}
